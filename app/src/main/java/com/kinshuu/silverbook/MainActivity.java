@@ -18,6 +18,6 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
 
     @Override
     public void onItemClicked(int index) {
-        Toast.makeText(this, "itemclicked", Toast.LENGTH_SHORT).show();
+
     }
 }

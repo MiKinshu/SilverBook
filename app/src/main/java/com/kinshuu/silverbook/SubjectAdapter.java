@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -66,18 +65,18 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
             public void onClick(View v) {
                 subjects.get(i).setPresent(subjects.get(i).getPresent()+1);
                 subjects.get(i).setTotaldays(subjects.get(i).getTotaldays()+1);
-                subjects.get(i).setAttendancePercent(((subjects.get(i).getPresent())*100)/(subjects.get(i).getTotaldays()));
-                viewHolder.TVattendance.setText(Double.toString(subjects.get(i).getAttendancePercent()));
-                //calculate attendance percentage here and set it to the textbox.
+                subjects.get(i).calculatepercent();
+                subjects.get(i).setAttendancePercent(subjects.get(i).getAttendancePercent());
+                viewHolder.TVattendance.setText((subjects.get(i).getAttendancePercent())+" %");
             }
         });
         viewHolder.BTNabsent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 subjects.get(i).setTotaldays(subjects.get(i).getTotaldays()+1);
-                subjects.get(i).setAttendancePercent(((subjects.get(i).getPresent())*100)/(subjects.get(i).getTotaldays()));
-                viewHolder.TVattendance.setText(Double.toString(subjects.get(i).getAttendancePercent()));
-                //calculate attendance percentage here and set it to the textbox.
+                subjects.get(i).calculatepercent();
+                subjects.get(i).setAttendancePercent(subjects.get(i).getAttendancePercent());
+                viewHolder.TVattendance.setText((subjects.get(i).getAttendancePercent())+" %");
             }
         });
     }

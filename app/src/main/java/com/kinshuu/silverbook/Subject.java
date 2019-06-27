@@ -3,17 +3,21 @@ package com.kinshuu.silverbook;
 import java.util.ArrayList;
 
 public class Subject {
-    private int totaldays=0,present=0,absent=0;
+    private int totaldays,present;
     private ArrayList<Integer> marks;
     private String sub_name;
     double SGPI=0,AttendancePercent=0;
 
 
-    public Subject(String sub_name) {
+    Subject(String sub_name) {
         this.sub_name = sub_name;
         this.present=0;
-        this.absent=0;
         this.totaldays=0;
+    }
+
+    public void calculatepercent(){
+        this.AttendancePercent=(this.present*100.0)/this.totaldays;
+        this.AttendancePercent=(double)Math.round(this.AttendancePercent*100.0)/100.0;
     }
 
     public int getTotaldays() {
@@ -30,14 +34,6 @@ public class Subject {
 
     public void setPresent(int present) {
         this.present = present;
-    }
-
-    public int getAbsent() {
-        return absent;
-    }
-
-    public void setAbsent(int absent) {
-        this.absent = absent;
     }
 
     public ArrayList<Integer> getMarks() {
