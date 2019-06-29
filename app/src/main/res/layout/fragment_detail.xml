@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".DetailFrag"
-    android:id="@+id/detail_frag"
-    android:tag="detail_frag">
+    tools:context=".DetailFrag">
 
     <TextView
         android:id="@+id/TVSubjectNameDF"
@@ -90,5 +88,4 @@
         app:layout_constraintStart_toEndOf="@+id/textView8"
         app:layout_constraintTop_toTopOf="@+id/BTNEditAttendance"
         app:layout_constraintVertical_bias="0.238" />
-
 </android.support.constraint.ConstraintLayout>
