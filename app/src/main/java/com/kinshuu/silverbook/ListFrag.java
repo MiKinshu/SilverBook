@@ -57,7 +57,6 @@ public class ListFrag extends Fragment {
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerview.setLayoutManager(layoutManager);
 
-
         subjects=LoadData();
         if(subjects.size()==0) {
             subjects.add(new Subject("DST"));
@@ -71,7 +70,9 @@ public class ListFrag extends Fragment {
         }
         myadapter = new SubjectAdapter(this.getActivity(), subjects);
         recyclerview.setAdapter(myadapter);
+
     }
+
     private void SaveData(ArrayList<Subject> subjects){
         SharedPreferences SParraylist = Objects.requireNonNull(this.getActivity()).getSharedPreferences("SubjectsArrayList",MODE_PRIVATE);
         SharedPreferences.Editor editor=SParraylist.edit();

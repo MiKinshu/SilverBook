@@ -31,7 +31,7 @@
             android:paddingBottom="2.5dp">
 
             <TextView
-                android:id="@+id/TVsubjectName"
+                android:id="@+id/TVsubjectNameLF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -77,7 +77,7 @@
                 android:text="Current SGPI is"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TVsubjectName" />
+                app:layout_constraintTop_toBottomOf="@+id/TVsubjectNameLF" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -117,7 +117,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/BTNpresent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/textView1"
-                app:layout_constraintTop_toBottomOf="@+id/TVsubjectName"
+                app:layout_constraintTop_toBottomOf="@+id/TVsubjectNameLF"
                 app:layout_constraintVertical_bias="0.733" />
 
             <TextView

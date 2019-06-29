@@ -16,7 +16,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
     itemclicked activity;
     private ArrayList<Subject> subjects;
     public interface itemclicked{
-        void onItemClicked(int index);
+        void onItemClicked(int index, ArrayList<Subject> subjects);
     }
 
     public SubjectAdapter(Context context, ArrayList<Subject> list){
@@ -33,14 +33,14 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
             super(itemView);
             TVattendance=itemView.findViewById(R.id.TVattendance);
             TVSGPI=itemView.findViewById(R.id.TVSGPI);
-            TVsubjectname=itemView.findViewById(R.id.TVsubjectName);
+            TVsubjectname=itemView.findViewById(R.id.TVsubjectNameLF);
             BTNpresent=itemView.findViewById(R.id.BTNpresent);
             BTNabsent=itemView.findViewById(R.id.BTNabsent);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.onItemClicked(subjects.indexOf((Subject)v.getTag()));
+                    activity.onItemClicked(subjects.indexOf((Subject)v.getTag()), subjects);
                 }
             });
         }

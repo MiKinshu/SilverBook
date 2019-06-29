@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.charts.Pie;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +27,10 @@ public class DetailFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        
         return inflater.inflate(R.layout.fragment_detail, container, false);
+
+
     }
 
 }
