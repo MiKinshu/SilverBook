@@ -59,7 +59,8 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
         viewHolder.itemView.setTag(subjects.get(i));
         viewHolder.TVsubjectname.setText(subjects.get(i).getSub_name());
         viewHolder.TVSGPI.setText( Double.toString(subjects.get(i).getSGPI()));
-        viewHolder.TVattendance.setText(Double.toString(subjects.get(i).getAttendancePercent()));
+        subjects.get(i).calculatepercent();
+        viewHolder.TVattendance.setText((subjects.get(i).getAttendancePercent())+" %");
         viewHolder.BTNpresent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,4 +86,5 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
     public int getItemCount() {
         return subjects.size();
     }
+
 }

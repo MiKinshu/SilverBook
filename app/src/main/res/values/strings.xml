@@ -3,4 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="edit_attendance">Edit Attendance</string>
+    <string name="classes_attended">Classes Attended:</string>
+    <string name="total_classes">Total Classes:</string>
 </resources>

@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 
@@ -42,7 +43,6 @@ public class ListFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d("INLISTFRAG","In oncreat Listfrag");
         view= inflater.inflate(R.layout.fragment_list, container, false);
         return view;
     }
@@ -50,15 +50,14 @@ public class ListFrag extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         recyclerview =view.findViewById(R.id.list);
         recyclerview.setHasFixedSize(true);
-
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerview.setLayoutManager(layoutManager);
-
+        subjects=new ArrayList<>();
         subjects=LoadData();
         if(subjects.size()==0) {
+            Log.d(TAG, "onActivityCreated: opening for the 1st time");
             subjects.add(new Subject("DST"));
             subjects.add(new Subject("PCE"));
             subjects.add(new Subject("UMC"));
@@ -68,6 +67,7 @@ public class ListFrag extends Fragment {
             subjects.add(new Subject("PFC"));
             subjects.add(new Subject("FEE"));
         }
+
         myadapter = new SubjectAdapter(this.getActivity(), subjects);
         recyclerview.setAdapter(myadapter);
 
@@ -99,5 +99,9 @@ public class ListFrag extends Fragment {
     public void onPause() {
         SaveData(subjects);
         super.onPause();
+    }
+
+    public void getArgs(Bundle args){
+        ArrayList<Subject> subjects2= (ArrayList<Subject>) args.get("localsub");
     }
 }
