@@ -8,10 +8,10 @@ import static android.support.constraint.Constraints.TAG;
 
 public class Subject implements Parcelable {
     private int totaldays,present;
-    private int[] marks= new int[5];
+    private int[] marks;
     private String sub_name;
     private String forcast;
-    double SGPI=0,AttendancePercent=0;
+    double GPA=0,AttendancePercent=0;
 
     // Getters and Setters for the class.
 
@@ -19,6 +19,19 @@ public class Subject implements Parcelable {
         this.sub_name = sub_name;
         this.present=0;
         this.totaldays=0;
+        marks=new int[]{0,0,0,0,0};
+    }
+
+    public int[] getMarks() {
+        return marks;
+    }
+
+    public void setMarks(int[] marks) {
+        this.marks = marks;
+    }
+
+    public void setForcast(String forcast) {
+        this.forcast = forcast;
     }
 
     public void calculatepercent(){
@@ -37,7 +50,10 @@ public class Subject implements Parcelable {
             else {
                 while ((double) (temp + present) / (temp + totaldays) < 0.75)
                     temp++;
-                header="You must attend the next "+temp+" classes.";
+                if (temp==1)
+                    header="You must attend the next class.";
+                else
+                    header="You must attend the next "+temp+" classes.";
             }
         }
         else {
@@ -45,7 +61,10 @@ public class Subject implements Parcelable {
                     temp++;
             if((double) (present ) / (temp + totaldays) < 0.75)
                     temp--;
-            header = "You can leave " + temp + " classes";
+            if(temp==1)
+                header="You can leave 1 class.";
+            else
+                header = "You can leave " + temp + " classes.";
         }
         return header;
     }
@@ -75,12 +94,12 @@ public class Subject implements Parcelable {
         this.sub_name = sub_name;
     }
 
-    public double getSGPI() {
-        return SGPI;
+    public double getGPA() {
+        return GPA;
     }
 
-    public void setSGPI(double SGPI) {
-        this.SGPI = SGPI;
+    public void setGPA(double GPA) {
+        this.GPA = GPA;
     }
 
     public double getAttendancePercent() {
@@ -104,7 +123,7 @@ public class Subject implements Parcelable {
         dest.writeString(sub_name);
         dest.writeInt(totaldays);
         dest.writeInt(present);
-        dest.writeDouble(SGPI);
+        dest.writeDouble(GPA);
         dest.writeDouble(AttendancePercent);
         dest.writeIntArray(marks);
         dest.writeString(forcast);
@@ -114,7 +133,7 @@ public class Subject implements Parcelable {
         this.sub_name=source.readString();
         this.totaldays=source.readInt();
         this.present=source.readInt();
-        this.SGPI=source.readDouble();
+        this.GPA=source.readDouble();
         this.AttendancePercent=source.readDouble();
         this.marks=source.createIntArray();
         this.forcast=source.readString();

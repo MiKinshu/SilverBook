@@ -35,7 +35,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="TextView"
                 android:textAllCaps="true"
@@ -52,20 +51,19 @@
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
                 android:text="Present"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/BTNabsent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="@+id/BTNabsent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <Button
                 android:id="@+id/BTNabsent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="Absent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/BTNpresent"
                 app:layout_constraintTop_toBottomOf="@+id/BTNpresent" />
 
             <TextView
@@ -74,14 +72,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="12dp"
-                android:text="Current SGPI is"
+                android:text="Current GPA is"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/TVsubjectNameLF" />
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
@@ -104,7 +102,7 @@
                 app:layout_constraintStart_toEndOf="@+id/textView2" />
 
             <TextView
-                android:id="@+id/TVSGPI"
+                android:id="@+id/TVGPA"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
@@ -124,7 +122,7 @@
                 android:id="@+id/textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:text="Mark Today's"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -132,11 +130,13 @@
 
             <TextView
                 android:id="@+id/TVforcast"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:text="You can leave "
                 android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/BTNabsent"
                 app:layout_constraintStart_toStartOf="@+id/textView2"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 

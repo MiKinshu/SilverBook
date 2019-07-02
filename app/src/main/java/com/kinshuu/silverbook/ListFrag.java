@@ -26,6 +26,7 @@ public class ListFrag extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     View view;
     ArrayList<Subject> subjects;
+    Integer elegible;
 
     public ListFrag() {
         // Required empty public constructor
@@ -52,7 +53,7 @@ public class ListFrag extends Fragment {
             Log.d(TAG, "onActivityCreated: Subjects is null");
             subjects.add(new Subject("New Subject"));
         }
-        myadapter = new SubjectAdapter(this.getActivity(), subjects);
+        myadapter = new SubjectAdapter(this.getActivity(), subjects, elegible);
         recyclerview.setAdapter(myadapter);
     }
 
@@ -60,6 +61,7 @@ public class ListFrag extends Fragment {
 
     public void getArgs(Bundle args){
         subjects= args.getParcelableArrayList("arraylist");
+        elegible=args.getInt("elegible");
         Log.d(TAG, "getArgs: Bundle Recieved");
         if(subjects!=null)
             Log.d(TAG, "getArgs: "+subjects.get(0).getSub_name());

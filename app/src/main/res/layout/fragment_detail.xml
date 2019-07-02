@@ -1,91 +1,392 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DetailFrag">
 
-    <TextView
-        android:id="@+id/TVSubjectNameDF"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:text="TextView"
-        android:textSize="30sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <com.github.mikephil.charting.charts.PieChart
-        android:id="@+id/piechart"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/TVAttendanceFraction"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TVSubjectNameDF">
+                <TextView
+                    android:id="@+id/TVSubjectNameDF"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="TextView"
+                    android:textSize="24sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    </com.github.mikephil.charting.charts.PieChart>
 
-    <Button
-        android:id="@+id/BTNEditAttendance"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Edit Attendance"
-        android:textSize="11sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.836"
-        app:layout_constraintStart_toEndOf="@+id/TVAttendanceFraction" />
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_percent="0.08" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.63" />
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Current Attendance:"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/BTNEditAttendance"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/BTNEditAttendance" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.08" />
+                <TextView
+                    android:id="@+id/TVAttendanceFraction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="TextView"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
+                    app:layout_constraintStart_toEndOf="@+id/textView8"
+                    app:layout_constraintTop_toTopOf="@+id/textView8" />
 
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Current Attendance:"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/BTNEditAttendance" />
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/piechart"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/BTNEditAttendance"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVSubjectNameDF">
 
-    <TextView
-        android:id="@+id/TVAttendanceFraction"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintStart_toEndOf="@+id/textView8"
-        app:layout_constraintTop_toTopOf="@+id/BTNEditAttendance"
-        app:layout_constraintVertical_bias="0.238" />
-</android.support.constraint.ConstraintLayout>
+                </com.github.mikephil.charting.charts.PieChart>
+
+                <Button
+                    android:id="@+id/BTNEditAttendance"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="2dp"
+                    android:text="Edit Attendance"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toTopOf="@+id/guideline"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.783"
+                    app:layout_constraintStart_toEndOf="@+id/TVAttendanceFraction" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="452dp" />
+
+
+                <TextView
+                    android:id="@+id/TVGPAhead"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="GPA Calculator"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+                <TextView
+                    android:id="@+id/TVGPAforcastDF"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Current GPA is :"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/BTNcalculateGPA"
+                    app:layout_constraintEnd_toStartOf="@+id/BTNcalculateGPA"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/BTNcalculateGPA" />
+
+                <TextView
+                    android:id="@+id/TVtestname1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="center"
+                    android:text="Quiz-1"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/TVtestname2"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestnames" />
+
+                <EditText
+                    android:id="@+id/ETuserscore1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintEnd_toStartOf="@+id/ETuserscore2"
+                    app:layout_constraintStart_toStartOf="@+id/TVtestname1"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestname1"
+                    tools:text="15.5" />
+
+                <TextView
+                    android:id="@+id/TVmaxscore1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="30"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ETuserscore1"
+                    app:layout_constraintStart_toStartOf="@+id/ETuserscore1"
+                    app:layout_constraintTop_toBottomOf="@+id/ETuserscore1" />
+
+                <TextView
+                    android:id="@+id/TVtestname2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="center"
+                    android:text="C-2"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/TVtestname3"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/TVtestname1"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestnames" />
+
+                <TextView
+                    android:id="@+id/TVtestname3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="center"
+                    android:text="Quiz-3"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/TVtestname4"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/TVtestname2"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestnames" />
+
+                <TextView
+                    android:id="@+id/TVtestname4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="center"
+                    android:text="Quiz-4"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/TVtestname5"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/TVtestname3"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestnames" />
+
+                <TextView
+                    android:id="@+id/TVtestname5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:gravity="center"
+                    android:text="Quiz-5"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/TVtestname4"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestnames" />
+
+                <EditText
+                    android:id="@+id/ETuserscore2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintEnd_toEndOf="@+id/TVtestname2"
+                    app:layout_constraintStart_toStartOf="@+id/TVtestname2"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestname2" />
+
+                <EditText
+                    android:id="@+id/ETuserscore3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintEnd_toEndOf="@+id/TVtestname3"
+                    app:layout_constraintStart_toStartOf="@+id/TVtestname3"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestname3" />
+
+                <EditText
+                    android:id="@+id/ETuserscore4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintEnd_toEndOf="@+id/TVtestname4"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/TVtestname4"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestname4" />
+
+                <EditText
+                    android:id="@+id/ETuserscore5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    app:layout_constraintEnd_toEndOf="@+id/TVtestname5"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/TVtestname5"
+                    app:layout_constraintTop_toBottomOf="@+id/TVtestname5" />
+
+                <TextView
+                    android:id="@+id/TVmaxscore2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="30"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ETuserscore2"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/ETuserscore2"
+                    app:layout_constraintTop_toBottomOf="@+id/ETuserscore2" />
+
+                <TextView
+                    android:id="@+id/TVmaxscore3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="30"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ETuserscore3"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/ETuserscore3"
+                    app:layout_constraintTop_toBottomOf="@+id/ETuserscore3" />
+
+                <TextView
+                    android:id="@+id/TVmaxscore4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="30"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ETuserscore4"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/ETuserscore4"
+                    app:layout_constraintTop_toBottomOf="@+id/ETuserscore4" />
+
+                <TextView
+                    android:id="@+id/TVmaxscore5"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="30"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/ETuserscore5"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="@+id/ETuserscore5"
+                    app:layout_constraintTop_toBottomOf="@+id/ETuserscore5" />
+
+                <TextView
+                    android:id="@+id/TVtestnames"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="8dp"
+                    android:text="Enter marks for Quiz-1,Quiz-2,Quiz-3,Quiz-4,Quiz-5."
+                    app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVGPAhead" />
+
+                <Button
+                    android:id="@+id/BTNcalculateGPA"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="Calculate"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/TVmaxscore1" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="TVtestname1,TVmaxscore1,ETuserscore1" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="TVtestname2,TVmaxscore2,ETuserscore2" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="TVtestname3,TVmaxscore3,ETuserscore3" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="TVtestname4,TVmaxscore4,ETuserscore4" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/group5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="TVtestname5,TVmaxscore5,ETuserscore5" />
+
+                <android.support.constraint.Group
+                    android:id="@+id/groupGPI"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="group1,group2,group3,group4,group5,TVtestnames,BTNcalculateGPA,TVGPAforcastDF" />
+
+        </android.support.constraint.ConstraintLayout>
+</ScrollView>

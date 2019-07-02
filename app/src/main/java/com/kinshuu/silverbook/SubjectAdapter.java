@@ -15,28 +15,35 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
 
     itemclicked activity;
     private ArrayList<Subject> subjects;
+    Integer Elegibility;
     public interface itemclicked{
         void onItemClicked(int index);
     }
 
-    public SubjectAdapter(Context context, ArrayList<Subject> list){
+    public SubjectAdapter(Context context, ArrayList<Subject> list, int elegible){
         subjects=list;
+        Elegibility=elegible;
         activity=(itemclicked)context;
     }
 
     public class viewholder extends RecyclerView.ViewHolder{
 
-        TextView TVsubjectname,TVSGPI,TVattendance,TVforcast;
+        TextView TVsubjectname,TVGPA,TVattendance,TVforcast,Textview1;
         Button BTNpresent,BTNabsent;
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
             TVattendance=itemView.findViewById(R.id.TVattendance);
-            TVSGPI=itemView.findViewById(R.id.TVSGPI);
+            TVGPA=itemView.findViewById(R.id.TVGPA);
             TVsubjectname=itemView.findViewById(R.id.TVsubjectNameLF);
             BTNpresent=itemView.findViewById(R.id.BTNpresent);
             BTNabsent=itemView.findViewById(R.id.BTNabsent);
             TVforcast=itemView.findViewById(R.id.TVforcast);
+            Textview1=itemView.findViewById(R.id.textView1);
+            if(Elegibility==0) {
+                TVGPA.setVisibility(View.GONE);
+                Textview1.setVisibility(View.GONE);
+            }
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,7 +66,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
     public void onBindViewHolder(@NonNull final SubjectAdapter.viewholder viewHolder, final int i) {
         viewHolder.itemView.setTag(subjects.get(i));
         viewHolder.TVsubjectname.setText(subjects.get(i).getSub_name());
-        viewHolder.TVSGPI.setText( Double.toString(subjects.get(i).getSGPI()));
+        viewHolder.TVGPA.setText( Double.toString(subjects.get(i).getGPA()));
         viewHolder.TVforcast.setText(subjects.get(i).getForcast());
         subjects.get(i).calculatepercent();
         viewHolder.TVattendance.setText((subjects.get(i).getAttendancePercent())+" %");
