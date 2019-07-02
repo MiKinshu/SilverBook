@@ -2,11 +2,15 @@ package com.kinshuu.silverbook;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class Subject implements Parcelable {
     private int totaldays,present;
     private int[] marks= new int[5];
     private String sub_name;
+    private String forcast;
     double SGPI=0,AttendancePercent=0;
 
     // Getters and Setters for the class.
@@ -20,6 +24,24 @@ public class Subject implements Parcelable {
     public void calculatepercent(){
         this.AttendancePercent=(this.present*100.0)/this.totaldays;
         this.AttendancePercent=(double)Math.round(this.AttendancePercent*100.0)/100.0;
+    }
+
+    public String getForcast() {
+        String header= new String();
+        int temp=0;
+        if(getAttendancePercent()<75.0){
+            while((double)(temp+present)/(temp+totaldays)<0.75000)
+                temp++;
+            header="You must attend the next "+temp+" classes.";
+        }
+        else {
+            while ((double) (present ) / (temp + totaldays) > 0.75)
+                    temp++;
+            if((double) (present ) / (temp + totaldays) < 0.75)
+                    temp--;
+            header = "You can leave " + temp + " classes";
+        }
+        return header;
     }
 
     public int getTotaldays() {
@@ -79,6 +101,7 @@ public class Subject implements Parcelable {
         dest.writeDouble(SGPI);
         dest.writeDouble(AttendancePercent);
         dest.writeIntArray(marks);
+        dest.writeString(forcast);
     }
 
     public Subject(Parcel source) {
@@ -88,6 +111,7 @@ public class Subject implements Parcelable {
         this.SGPI=source.readDouble();
         this.AttendancePercent=source.readDouble();
         this.marks=source.createIntArray();
+        this.forcast=source.readString();
     }
 
     public static final Parcelable.Creator<Subject> CREATOR = new Parcelable.Creator<Subject>(){

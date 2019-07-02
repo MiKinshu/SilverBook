@@ -26,7 +26,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
 
     public class viewholder extends RecyclerView.ViewHolder{
 
-        TextView TVsubjectname,TVSGPI,TVattendance;
+        TextView TVsubjectname,TVSGPI,TVattendance,TVforcast;
         Button BTNpresent,BTNabsent;
 
         public viewholder(@NonNull View itemView) {
@@ -36,6 +36,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
             TVsubjectname=itemView.findViewById(R.id.TVsubjectNameLF);
             BTNpresent=itemView.findViewById(R.id.BTNpresent);
             BTNabsent=itemView.findViewById(R.id.BTNabsent);
+            TVforcast=itemView.findViewById(R.id.TVforcast);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,6 +60,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
         viewHolder.itemView.setTag(subjects.get(i));
         viewHolder.TVsubjectname.setText(subjects.get(i).getSub_name());
         viewHolder.TVSGPI.setText( Double.toString(subjects.get(i).getSGPI()));
+        viewHolder.TVforcast.setText(subjects.get(i).getForcast());
         subjects.get(i).calculatepercent();
         viewHolder.TVattendance.setText((subjects.get(i).getAttendancePercent())+" %");
         viewHolder.BTNpresent.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +71,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
                 subjects.get(i).calculatepercent();
                 subjects.get(i).setAttendancePercent(subjects.get(i).getAttendancePercent());
                 viewHolder.TVattendance.setText((subjects.get(i).getAttendancePercent())+" %");
+                viewHolder.TVforcast.setText(subjects.get(i).getForcast());
             }
         });
         viewHolder.BTNabsent.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +81,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
                 subjects.get(i).calculatepercent();
                 subjects.get(i).setAttendancePercent(subjects.get(i).getAttendancePercent());
                 viewHolder.TVattendance.setText((subjects.get(i).getAttendancePercent())+" %");
+                viewHolder.TVforcast.setText(subjects.get(i).getForcast());
             }
         });
     }
