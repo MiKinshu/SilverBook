@@ -1,7 +1,6 @@
 package com.kinshuu.silverbook;
 
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,15 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Objects;
 
-import static android.content.ContentValues.TAG;
-import static android.content.Context.MODE_PRIVATE;
+import static android.support.constraint.Constraints.TAG;
 
 
 /**
@@ -38,11 +31,11 @@ public class ListFrag extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView: Fragment created");
         view= inflater.inflate(R.layout.fragment_list, container, false);
         return view;
     }
@@ -54,54 +47,22 @@ public class ListFrag extends Fragment {
         recyclerview.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerview.setLayoutManager(layoutManager);
-        subjects=new ArrayList<>();
-        subjects=LoadData();
-        if(subjects.size()==0) {
-            Log.d(TAG, "onActivityCreated: opening for the 1st time");
-            subjects.add(new Subject("DST"));
-            subjects.add(new Subject("PCE"));
-            subjects.add(new Subject("UMC"));
-            subjects.add(new Subject("LAL"));
-            subjects.add(new Subject("DST Lab"));
-            subjects.add(new Subject("COA"));
-            subjects.add(new Subject("PFC"));
-            subjects.add(new Subject("FEE"));
+        if(subjects==null) {
+            subjects= new ArrayList<>();
+            Log.d(TAG, "onActivityCreated: Subjects is null");
+            subjects.add(new Subject("New Subject"));
         }
-
         myadapter = new SubjectAdapter(this.getActivity(), subjects);
         recyclerview.setAdapter(myadapter);
-
     }
 
-    private void SaveData(ArrayList<Subject> subjects){
-        SharedPreferences SParraylist = Objects.requireNonNull(this.getActivity()).getSharedPreferences("SubjectsArrayList",MODE_PRIVATE);
-        SharedPreferences.Editor editor=SParraylist.edit();
-        Gson gson= new Gson ();
-        String json=gson.toJson(subjects);
-        editor.putString("subjectslist",json);
-        editor.apply();
-    }
-
-    private ArrayList<Subject> LoadData(){
-        ArrayList<Subject> subjects = new ArrayList<Subject>();
-        SharedPreferences SParraylist = Objects.requireNonNull(this.getActivity()).getSharedPreferences("SubjectsArrayList",MODE_PRIVATE);
-        Gson gson= new Gson();
-        String json = SParraylist.getString("subjectslist",null);
-        Type type= new TypeToken<ArrayList<Subject>>(){}.getType();
-        subjects=gson.fromJson(json,type);
-        if(subjects==null){
-            subjects=new ArrayList<Subject>();
-        }
-        return subjects;
-    }
-
-    @Override
-    public void onPause() {
-        SaveData(subjects);
-        super.onPause();
-    }
+    //This is a bundle from main activity, it contains the local subjects ArrayList.
 
     public void getArgs(Bundle args){
-        ArrayList<Subject> subjects2= (ArrayList<Subject>) args.get("localsub");
+        subjects= args.getParcelableArrayList("arraylist");
+        Log.d(TAG, "getArgs: Bundle Recieved");
+        if(subjects!=null)
+            Log.d(TAG, "getArgs: "+subjects.get(0).getSub_name());
     }
+
 }

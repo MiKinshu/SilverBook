@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Objects;
+
 public class PopupDiaogue extends AppCompatDialogFragment {
 
     private EditText ETclassesattended;
@@ -20,7 +22,7 @@ public class PopupDiaogue extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
-        final LayoutInflater inflater=getActivity().getLayoutInflater();
+        final LayoutInflater inflater= Objects.requireNonNull(getActivity()).getLayoutInflater();
         final View view=inflater.inflate(R.layout.popupdialogue, null);
         ETclassesattended=view.findViewById(R.id.ETclassesatttended);
         ETtotalclasses=view.findViewById(R.id.ETtotalclasses);

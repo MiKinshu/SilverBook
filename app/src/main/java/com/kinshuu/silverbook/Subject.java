@@ -1,13 +1,15 @@
 package com.kinshuu.silverbook;
 
-import java.util.ArrayList;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-public class Subject {
+public class Subject implements Parcelable {
     private int totaldays,present;
-    private ArrayList<Integer> marks;
+    private int[] marks= new int[5];
     private String sub_name;
     double SGPI=0,AttendancePercent=0;
 
+    // Getters and Setters for the class.
 
     Subject(String sub_name) {
         this.sub_name = sub_name;
@@ -36,13 +38,6 @@ public class Subject {
         this.present = present;
     }
 
-    public ArrayList<Integer> getMarks() {
-        return marks;
-    }
-
-    public void setMarks(ArrayList<Integer> marks) {
-        this.marks = marks;
-    }
 
     public String getSub_name() {
         return sub_name;
@@ -67,4 +62,45 @@ public class Subject {
     public void setAttendancePercent(double attendancePercent) {
         AttendancePercent = attendancePercent;
     }
+
+    // The methods given below were set up so as to enable me to pass an ArrayList of Subject
+    // objects from MainActivity to ListFrag.
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(sub_name);
+        dest.writeInt(totaldays);
+        dest.writeInt(present);
+        dest.writeDouble(SGPI);
+        dest.writeDouble(AttendancePercent);
+        dest.writeIntArray(marks);
+    }
+
+    public Subject(Parcel source) {
+        this.sub_name=source.readString();
+        this.totaldays=source.readInt();
+        this.present=source.readInt();
+        this.SGPI=source.readDouble();
+        this.AttendancePercent=source.readDouble();
+        this.marks=source.createIntArray();
+    }
+
+    public static final Parcelable.Creator<Subject> CREATOR = new Parcelable.Creator<Subject>(){
+
+        @Override
+        public Subject createFromParcel(Parcel source) {
+            return new Subject(source);
+        }
+
+        @Override
+        public Subject[] newArray(int size) {
+            return new Subject[size];
+        }
+    };
+
 }

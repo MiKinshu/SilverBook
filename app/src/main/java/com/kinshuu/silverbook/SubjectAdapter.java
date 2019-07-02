@@ -16,7 +16,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
     itemclicked activity;
     private ArrayList<Subject> subjects;
     public interface itemclicked{
-        void onItemClicked(int index, ArrayList<Subject> subjects);
+        void onItemClicked(int index);
     }
 
     public SubjectAdapter(Context context, ArrayList<Subject> list){
@@ -40,7 +40,7 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.onItemClicked(subjects.indexOf((Subject)v.getTag()), subjects);
+                    activity.onItemClicked(subjects.indexOf((Subject)v.getTag()));
                 }
             });
         }
