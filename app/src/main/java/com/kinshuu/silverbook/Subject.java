@@ -27,12 +27,18 @@ public class Subject implements Parcelable {
     }
 
     public String getForcast() {
-        String header= new String();
+        String header;
         int temp=0;
         if(getAttendancePercent()<75.0){
-            while((double)(temp+present)/(temp+totaldays)<0.75000)
-                temp++;
-            header="You must attend the next "+temp+" classes.";
+            if(totaldays==0) {
+                temp = 1;
+                header = "You must attend the next " + temp + " class.";
+            }
+            else {
+                while ((double) (temp + present) / (temp + totaldays) < 0.75)
+                    temp++;
+                header="You must attend the next "+temp+" classes.";
+            }
         }
         else {
             while ((double) (present ) / (temp + totaldays) > 0.75)
