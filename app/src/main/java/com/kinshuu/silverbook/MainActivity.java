@@ -3,10 +3,13 @@ package com.kinshuu.silverbook;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.constraint.Group;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Group;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +22,12 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -28,19 +37,26 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SubjectAdapter.itemclicked, PopupDiaogue.PopupDialogueListener {
 
-    PieChart pieChart;
-    ArrayList<Subject> subjectsmain;
-    ArrayList<SubjectSync> subjectSyncArrayList;
-    Integer indexmain;
-    TextView TVsubjectnameDF,TVGPAhead;
-    TextView TVattendancefraction;
-    Button BTNeditattendance;
-    Group group1, group2,group3,group4,group5,groupGPI;
+    PieChart pieChart;//for setting up PieChart in detail frag.
+    ArrayList<Subject> subjectsmain=new ArrayList<>();//Main local Subjects ArrayList
+    ArrayList<SubjectSync> subjectSyncArrayList=new ArrayList<>();//ArrayList synced from firebase.
+
+    Integer indexmain=0;
+    Integer firsttime;
+
+    //For managing userdata.
     Integer Signed_In=1;
     Integer Eligible=0;
     Integer YearOfJoining=2018;
     String College="IIIT-A";
     String Branch="IT";
+    private String mUsername="ANONYMOUS";
+    String TAG="MyLOGS";
+
+    //Firebase instance variables
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference msubjectsDatabaseReference;
+    private ChildEventListener mChildEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +64,32 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         if(YearOfJoining>2017&&College.equals("IIIT-A")&&Signed_In==1)
             Eligible=1;
         setContentView(R.layout.activity_main);
+
+        //Checking if the user has signed in for the first time.
+        SharedPreferences faveditor=getSharedPreferences("com.kinshuu.silverbook.ft",MODE_PRIVATE);
+        firsttime=faveditor.getInt("FT",1);
+
+        mFirebaseDatabase=FirebaseDatabase.getInstance();
+        msubjectsDatabaseReference=mFirebaseDatabase.getReference().child(College).child(YearOfJoining.toString()).child(Branch);
+
         subjectSyncArrayList=SyncData();
         subjectsmain = LoadData();
-        if(subjectsmain.size()==0){
-            subjectsmain=InitialiseSub();
-        }
-        FragmentManager fm= getSupportFragmentManager();
-        FragmentTransaction ft= getSupportFragmentManager().beginTransaction();
-        DetailFrag detailFrag=(DetailFrag)fm.findFragmentById(R.id.detail_frag);
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        DetailFrag detailFrag =(DetailFrag)fm.findFragmentById(R.id.detail_frag);
+
+        //Following code sends data to the list frag, what's important is Activity's OnCreate finishes before Fragments OnActivityCreated starts.
         ListFrag listFrag= (ListFrag) fm.findFragmentById(R.id.list_frag);
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("arraylist",subjectsmain);
         bundle.putInt("elegible",Eligible);
-        listFrag.getArgs(bundle);
+        Objects.requireNonNull(listFrag).getArgs(bundle);
 
+        if(firsttime==1)
+            Toast.makeText(this, "Hang in tight, while we load your data.", Toast.LENGTH_SHORT).show();
+
+        //Following code hides detail frag in portrait mode.
         if(findViewById(R.id.layout_portrait)!=null) {
             if (detailFrag != null) {
                 ft.hide(detailFrag);
@@ -70,16 +98,69 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             ft.commit();
         }
         else {
-            Toast.makeText(this, "Please use portrait mode for better visuals :)", Toast.LENGTH_LONG).show();
-            ft.show(detailFrag);
+            ft.show(Objects.requireNonNull(detailFrag));
             ft.show(listFrag);
             ft.commit();
-            setdetailfrag(0);
+            if(firsttime!=1)
+                setdetailfrag(0);
         }
+
+        //following code is to manage the firebase sync data.
+        final ArrayList<SubjectSync> subjectSyncArrayListtemp=new ArrayList<>();
+        mChildEventListener=new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                SubjectSync subject= dataSnapshot.getValue(SubjectSync.class);
+                subjectSyncArrayListtemp.add(subject);
+                Log.d(TAG, "onChildAdded: New child added");
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        };
+        msubjectsDatabaseReference.addChildEventListener(mChildEventListener);
+        msubjectsDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                subjectSyncArrayList=subjectSyncArrayListtemp;
+                if(firsttime==1){
+                    //changing firsttime to 0.
+                    SharedPreferences.Editor faveditor=getSharedPreferences("com.kinshuu.silverbook.ft",MODE_PRIVATE).edit();
+                    faveditor.putInt("FT",0);
+                    faveditor.apply();
+                    Log.d(TAG, "onDataChange: Saved shared preference");
+
+                    subjectsmain=InitialiseSub();
+                    Log.d(TAG, "onDataChange: initialised subjects main");
+                    recreate();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     //This function is used to update the visibility of views as per the constraints.
     private void UpdateViewVisibility(int i) {
+        Group group1, group2,group3,group4,group5,groupGPI;
+        TextView TVGPAhead;
         group1=findViewById(R.id.group1);
         group2=findViewById(R.id.group2);
         group3=findViewById(R.id.group3);
@@ -112,8 +193,9 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     group4.setVisibility(View.GONE);
                     group5.setVisibility(View.GONE);
                     TextView TVtestname1=findViewById(R.id.TVtestname1);
-                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0));
+                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0)+"");
                     TextView TVmaxscore1=findViewById(R.id.TVmaxscore1);
+                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
                     ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
@@ -125,13 +207,13 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     group4.setVisibility(View.GONE);
                     group5.setVisibility(View.GONE);
                     TextView TVtestname1=findViewById(R.id.TVtestname1);
-                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0));
+                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0)+"");
                     TextView TVmaxscore1=findViewById(R.id.TVmaxscore1);
-                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0).toString());
+                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0)+"");
                     TextView TVtestname2=findViewById(R.id.TVtestname2);
-                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1));
+                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1)+"");
                     TextView TVmaxscore2=findViewById(R.id.TVmaxscore2);
-                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1).toString());
+                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
                     ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
@@ -142,17 +224,17 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     group4.setVisibility(View.GONE);
                     group5.setVisibility(View.GONE);
                     TextView TVtestname1=findViewById(R.id.TVtestname1);
-                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0));
+                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0)+"");
                     TextView TVmaxscore1=findViewById(R.id.TVmaxscore1);
-                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0).toString());
+                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0)+"");
                     TextView TVtestname2=findViewById(R.id.TVtestname2);
-                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1));
+                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1)+"");
                     TextView TVmaxscore2=findViewById(R.id.TVmaxscore2);
-                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1).toString());
+                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1)+"");
                     TextView TVtestname3=findViewById(R.id.TVtestname3);
-                    TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2));
+                    TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2)+"");
                     TextView TVmaxscore3=findViewById(R.id.TVmaxscore3);
-                    TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2).toString());
+                    TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
                     ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
@@ -162,21 +244,21 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 case 4:{
                     group5.setVisibility(View.GONE);
                     TextView TVtestname1=findViewById(R.id.TVtestname1);
-                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0));
+                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0)+"");
                     TextView TVmaxscore1=findViewById(R.id.TVmaxscore1);
-                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0).toString());
+                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0)+"");
                     TextView TVtestname2=findViewById(R.id.TVtestname2);
-                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1));
+                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1)+"");
                     TextView TVmaxscore2=findViewById(R.id.TVmaxscore2);
-                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1).toString());
+                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1)+"");
                     TextView TVtestname3=findViewById(R.id.TVtestname3);
-                    TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2));
+                    TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2)+"");
                     TextView TVmaxscore3=findViewById(R.id.TVmaxscore3);
-                    TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2).toString());
+                    TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2)+"");
                     TextView TVtestname4=findViewById(R.id.TVtestname4);
-                    TVtestname4.setText(subjectSyncArrayList.get(i).getTestNames().get(3));
+                    TVtestname4.setText(subjectSyncArrayList.get(i).getTestNames().get(3)+"");
                     TextView TVmaxscore4=findViewById(R.id.TVmaxscore4);
-                    TVmaxscore4.setText(subjectSyncArrayList.get(i).getMaxScores().get(3).toString());
+                    TVmaxscore4.setText(subjectSyncArrayList.get(i).getMaxScores().get(3)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
                     ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
@@ -185,25 +267,25 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 }
                 case 5:{
                     TextView TVtestname1=findViewById(R.id.TVtestname1);
-                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0));
+                    TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0)+"");
                     TextView TVmaxscore1=findViewById(R.id.TVmaxscore1);
-                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0).toString());
+                    TVmaxscore1.setText(subjectSyncArrayList.get(i).getMaxScores().get(0)+"");
                     TextView TVtestname2=findViewById(R.id.TVtestname2);
-                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1));
+                    TVtestname2.setText(subjectSyncArrayList.get(i).getTestNames().get(1)+"");
                     TextView TVmaxscore2=findViewById(R.id.TVmaxscore2);
-                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1).toString());
+                    TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1)+"");
                     TextView TVtestname3=findViewById(R.id.TVtestname3);
-                    TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2));
+                    TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2)+"");
                     TextView TVmaxscore3=findViewById(R.id.TVmaxscore3);
-                    TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2).toString());
+                    TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2)+"");
                     TextView TVtestname4=findViewById(R.id.TVtestname4);
-                    TVtestname4.setText(subjectSyncArrayList.get(i).getTestNames().get(3));
+                    TVtestname4.setText(subjectSyncArrayList.get(i).getTestNames().get(3)+"");
                     TextView TVmaxscore4=findViewById(R.id.TVmaxscore4);
-                    TVmaxscore4.setText(subjectSyncArrayList.get(i).getMaxScores().get(3).toString());
+                    TVmaxscore4.setText(subjectSyncArrayList.get(i).getMaxScores().get(3)+"");
                     TextView TVtestname5=findViewById(R.id.TVtestname5);
-                    TVtestname5.setText(subjectSyncArrayList.get(i).getTestNames().get(4));
+                    TVtestname5.setText(subjectSyncArrayList.get(i).getTestNames().get(4)+"");
                     TextView TVmaxscore5=findViewById(R.id.TVmaxscore5);
-                    TVmaxscore5.setText(subjectSyncArrayList.get(i).getMaxScores().get(4).toString());
+                    TVmaxscore5.setText(subjectSyncArrayList.get(i).getMaxScores().get(4)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
                     ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
@@ -220,6 +302,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         if(Eligible==1) {
             for (int i = 0; i < subjectSyncArrayList.size(); i++)
                 subjects.add(new Subject(subjectSyncArrayList.get(i).getSub_name()));
+            Log.d(TAG, "InitialiseSub: Adding subjects from synced list to local list");
         }
         else {
             subjects.add(new Subject("Enter your"));
@@ -228,29 +311,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         return subjects;
     }
 
-    //This function is used to set up SubjectsSync for an eligible user.
-    private ArrayList<SubjectSync> SyncData() {
-        ArrayList<SubjectSync> list=new ArrayList<>();
-        if(Eligible==1) {
-            ArrayList<Integer> topperScore = new ArrayList<>();
-            topperScore.add(29);
-            ArrayList<String> testName = new ArrayList<>();
-            testName.add("C1");
-            ArrayList<Integer> maxScore = new ArrayList<>();
-            maxScore.add(45);
-            Integer[] ScoresToConsider={1,-1,-1,-1,-1};
-            list.add(new SubjectSync("DST", 1, "Enter marks for C1", topperScore, testName, maxScore,ScoresToConsider));
-            topperScore.add(27);
-            testName.add("Quiz-2");
-            maxScore.add(30);
-            Integer[] ScoresToConsider2={1,1,-1,-1,-1};
-            list.add(new SubjectSync("UMC", 2, "Enter marks for C1, Quiz-2", topperScore, testName, maxScore,ScoresToConsider2));
-        }
-        return list;
-    }
-
-
-    //This function is used to setup the piechart
+    //This function is used to setup the PieChart.
     private void addDataset(PieChart pieChart, ArrayList<Subject> subjectsmain, int index) {// This method sets up the piechart
         pieChart = findViewById(R.id.piechart);
         pieChart.setHoleRadius(25f);
@@ -279,8 +340,10 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         pieChart.invalidate();
     }
 
+    //This is the interface method, it receives an index and the sets DetailFrag for that object from ArrayList.
     @Override
-    public void onItemClicked(final int index)     {
+    public void onItemClicked(final int index) {
+        indexmain=index;
         setdetailfrag(index);
     }
 
@@ -289,22 +352,37 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         popupDiaogue.show(getSupportFragmentManager(),"EditAttendance Popup");
     }
 
+    //This is an interface method, it receives info from the popup and sets it accordingly.
     @Override
     public void applytexts(Integer classesattended, Integer totalclasses) {
         subjectsmain.get(indexmain).setPresent(classesattended);
         subjectsmain.get(indexmain).setTotaldays(totalclasses);
+        subjectsmain.get(indexmain).calculatepercent();
         setdetailfragnoback(indexmain);
+        FragmentManager fm = getSupportFragmentManager();
+        final ListFrag listFrag = (ListFrag) fm.findFragmentById(R.id.list_frag);
+        listFrag.myadapter.notifyDataSetChanged();
     }
 
+    //This function is used to set up the detail frag when an item is clicked on list frag.
     public void setdetailfrag(final int index){
         Log.d("Inonitemclicked","at beginning");
         addDataset(pieChart, subjectsmain, index);//setting up pie chart
         //now setting up detail frag.
+
+        FragmentManager fm = getSupportFragmentManager();
+        DetailFrag detailFrag = (DetailFrag) fm.findFragmentById(R.id.detail_frag);
+        final ListFrag listFrag = (ListFrag) fm.findFragmentById(R.id.list_frag);
+
         UpdateViewVisibility(index);
+        TextView TVsubjectnameDF;
+        TextView TVattendancefraction;
+        Button BTNeditattendance;
         TVattendancefraction=findViewById(R.id.TVAttendanceFraction);
         TVsubjectnameDF=findViewById(R.id.TVSubjectNameDF);
         TVsubjectnameDF.setText(subjectsmain.get(index).getSub_name());
-        BTNeditattendance=findViewById(R.id.BTNEditAttendance);
+        TextView TVGPAforcastDF=findViewById(R.id.TVGPAforcastDF);
+        TVGPAforcastDF.setText("Press Calculate to know your GPA.");
         String attendance= subjectsmain.get(index).getPresent()+"/"+subjectsmain.get(index).getTotaldays();
         TVattendancefraction.setText(attendance);
         BTNeditattendance=findViewById(R.id.BTNEditAttendance);
@@ -321,17 +399,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             @Override
             public void onClick(View v) {
                 calculateGPA(index);
+                listFrag.myadapter.notifyDataSetChanged();
             }
         });
 
         if(findViewById(R.id.layout_portrait)!=null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            FragmentManager fm = getSupportFragmentManager();
-            DetailFrag detailFrag = (DetailFrag) fm.findFragmentById(R.id.detail_frag);
             if (detailFrag != null) {
                 ft.show(detailFrag);
             }
-            ListFrag listFrag = (ListFrag) fm.findFragmentById(R.id.list_frag);
             if (listFrag != null)
                 ft.hide(listFrag);
             ft.commit();
@@ -339,6 +415,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         }
     }
 
+    //This function does GPA calculation and flashes the result on screen
     public void calculateGPA(Integer i){
         Double sum=0.0,Tsum=0.0;
         ArrayList<Integer> numArrayList= new ArrayList<>();
@@ -350,19 +427,22 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         if(i<subjectSyncArrayList.size()) {
             switch (subjectSyncArrayList.get(i).getNoOfTests()) {
                 case 1: {
-                    if (ETuserscore1.getText().toString().equals("") || Integer.parseInt(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0)) {
+                    if (ETuserscore1.getText().toString().equals("") ||
+                            Integer.parseInt(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0)) {
                         Toast.makeText(this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
                     } else {
                         subjectsmain.get(i).getMarks()[0] = Integer.parseInt(ETuserscore1.getText().toString());
                         numArrayList.add(Integer.parseInt(ETuserscore1.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
-                            if (subjectSyncArrayList.get(i).getScoreToConsider()[j] != -1) {
+                            if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
                                 Tsum += subjectSyncArrayList.get(i).getTopperScore().get(j);
                             }
                         }
                         Double GPA = sum * 10.0 / Tsum;
                         GPA = (double) Math.round(GPA * 100) / 100;
+                        if(GPA > 10.0)
+                            GPA = 10.0;
                         String returns = "Current GPA is " + Double.toString(GPA);
                         TextView TVGPAforcastDF = findViewById(R.id.TVGPAforcastDF);
                         TVGPAforcastDF.setText(returns);
@@ -382,13 +462,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         subjectsmain.get(i).getMarks()[1] = Integer.parseInt(ETuserscore2.getText().toString());
                         numArrayList.add(Integer.parseInt(ETuserscore2.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
-                            if (subjectSyncArrayList.get(i).getScoreToConsider()[j] != -1) {
+                            if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
                                 Tsum += subjectSyncArrayList.get(i).getTopperScore().get(j);
                             }
                         }
                         Double GPA = sum * 10.0 / Tsum;
                         GPA = (double) Math.round(GPA * 100) / 100;
+                        if(GPA > 10.0)
+                            GPA = 10.0;
                         String returns = "Current GPA is " + Double.toString(GPA);
                         TextView TVGPAforcastDF = findViewById(R.id.TVGPAforcastDF);
                         TVGPAforcastDF.setText(returns);
@@ -412,13 +494,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         subjectsmain.get(i).getMarks()[2] = Integer.parseInt(ETuserscore3.getText().toString());
                         numArrayList.add(Integer.parseInt(ETuserscore3.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
-                            if (subjectSyncArrayList.get(i).getScoreToConsider()[j] != -1) {
+                            if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
                                 Tsum += subjectSyncArrayList.get(i).getTopperScore().get(j);
                             }
                         }
                         Double GPA = sum * 10.0 / Tsum;
                         GPA = (double) Math.round(GPA * 100) / 100;
+                        if(GPA > 10.0)
+                            GPA = 10.0;
                         String returns = "Current GPA is " + Double.toString(GPA);
                         TextView TVGPAforcastDF = findViewById(R.id.TVGPAforcastDF);
                         TVGPAforcastDF.setText(returns);
@@ -446,13 +530,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         subjectsmain.get(i).getMarks()[3] = Integer.parseInt(ETuserscore4.getText().toString());
                         numArrayList.add(Integer.parseInt(ETuserscore4.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
-                            if (subjectSyncArrayList.get(i).getScoreToConsider()[j] != -1) {
+                            if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
                                 Tsum += subjectSyncArrayList.get(i).getTopperScore().get(j);
                             }
                         }
                         Double GPA = sum * 10.0 / Tsum;
                         GPA = (double) Math.round(GPA * 100) / 100;
+                        if(GPA > 10.0)
+                            GPA = 10.0;
                         String returns = "Current GPA is " + Double.toString(GPA);
                         TextView TVGPAforcastDF = findViewById(R.id.TVGPAforcastDF);
                         TVGPAforcastDF.setText(returns);
@@ -484,13 +570,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         subjectsmain.get(i).getMarks()[4] = Integer.parseInt(ETuserscore5.getText().toString());
                         numArrayList.add(Integer.parseInt(ETuserscore5.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
-                            if (subjectSyncArrayList.get(i).getScoreToConsider()[j] != -1) {
+                            if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
                                 Tsum += subjectSyncArrayList.get(i).getTopperScore().get(j);
                             }
                         }
                         Double GPA = sum * 10.0 / Tsum;
                         GPA = (double) Math.round(GPA * 100) / 100;
+                        if(GPA > 10.0)
+                            GPA = 10.0;
                         String returns = "Current GPA is " + Double.toString(GPA);
                         TextView TVGPAforcastDF = findViewById(R.id.TVGPAforcastDF);
                         TVGPAforcastDF.setText(returns);
@@ -504,15 +592,21 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             Toast.makeText(this, "Forcast not available for this Subject.", Toast.LENGTH_SHORT).show();
     }
 
+    //This function also sets up detail frag but without adding to the back stack.
     public void setdetailfragnoback(final int index){
         Log.d("Inonitemclicked","at beginning");
         addDataset(pieChart, subjectsmain, index);//setting up pie chart
         //now setting up detail frag.
         UpdateViewVisibility(index);
+        TextView TVsubjectnameDF;
+        TextView TVattendancefraction;
+        Button BTNeditattendance;
         TVattendancefraction=findViewById(R.id.TVAttendanceFraction);
         TVsubjectnameDF=findViewById(R.id.TVSubjectNameDF);
         TVsubjectnameDF.setText(subjectsmain.get(index).getSub_name());
         BTNeditattendance=findViewById(R.id.BTNEditAttendance);
+        TextView TVGPAforcastDF=findViewById(R.id.TVGPAforcastDF);
+        TVGPAforcastDF.setText("Press Calculate to know your GPA.");
         String attendance= subjectsmain.get(index).getPresent()+"/"+subjectsmain.get(index).getTotaldays();
         TVattendancefraction.setText(attendance);
         BTNeditattendance=findViewById(R.id.BTNEditAttendance);
@@ -528,7 +622,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         BTNcalculateGPA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calculateGPA(index);
+                //calculateGPA(index);
             }
         });
 
@@ -546,31 +640,85 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         }
     }// Dont forget to update this function as per setdetailfrag.
 
-    private void SaveData(ArrayList<Subject> subjectsmain){
-        SharedPreferences SParraylist = Objects.requireNonNull(this).getSharedPreferences("SubjectsArrayList",MODE_PRIVATE);
-        SharedPreferences.Editor editor=SParraylist.edit();
+    //This function saves data locally.
+    private void SaveData(){
+        SharedPreferences SPSubjectsMain = Objects.requireNonNull(this).getSharedPreferences("SubjectsMainArrayList",MODE_PRIVATE);
+        SharedPreferences.Editor editor=SPSubjectsMain.edit();
         Gson gson= new Gson ();
         String json=gson.toJson(subjectsmain);
         editor.putString("subjectslist",json);
         editor.apply();
+
+        SharedPreferences SPSubjectsSync = Objects.requireNonNull(this).getSharedPreferences("SubjectsSyncArrayList",MODE_PRIVATE);
+        SharedPreferences.Editor editor1=SPSubjectsSync.edit();
+        Gson gson1= new Gson ();
+        String json1=gson1.toJson(subjectSyncArrayList);
+        editor1.putString("subjectssynclist",json1);
+        editor1.apply();
+        Log.d(TAG, "SaveData: ArrayLists saved!");
     }
 
+    //This function loads data from the local storage.
     private ArrayList<Subject> LoadData(){
-        ArrayList<Subject> subjectsmain = new ArrayList<Subject>();
-        SharedPreferences SParraylist = Objects.requireNonNull(this).getSharedPreferences("SubjectsArrayList",MODE_PRIVATE);
+        ArrayList<Subject> subjectsmain;
+        SharedPreferences SPSubjectsMain = Objects.requireNonNull(this).getSharedPreferences("SubjectsMainArrayList",MODE_PRIVATE);
         Gson gson= new Gson();
-        String json = SParraylist.getString("subjectslist",null);
+        String json = SPSubjectsMain.getString("subjectslist",null);
         Type type= new TypeToken<ArrayList<Subject>>(){}.getType();
         subjectsmain=gson.fromJson(json,type);
         if(subjectsmain==null){
-            subjectsmain=new ArrayList<Subject>();
+            subjectsmain=new ArrayList<>();
         }
         return subjectsmain;
     }
 
+    //This function is used to set up SubjectsSync for an eligible user.
+    private ArrayList<SubjectSync> SyncData() {
+        ArrayList<SubjectSync> list=new ArrayList<>();
+        if(Eligible==1) {
+            SharedPreferences SPSubjectsSync = Objects.requireNonNull(this).getSharedPreferences("SubjectsSyncArrayList",MODE_PRIVATE);
+            Gson gson= new Gson();
+            String json = SPSubjectsSync.getString("subjectssynclist",null);
+            Type type= new TypeToken<ArrayList<SubjectSync>>(){}.getType();
+            list=gson.fromJson(json,type);
+        }
+        if(list==null)
+            list=new ArrayList<>();
+        return list;
+    }
+
     @Override
     protected void onPause() {
-        SaveData(subjectsmain);
+        SaveData();
         super.onPause();
     }
 }
+
+
+
+
+
+            /*ArrayList<Integer> topperScore=new ArrayList<>();
+            topperScore.add(41);
+            ArrayList<String> testName=new ArrayList<>();
+            testName.add("C1");
+            ArrayList<Integer> maxScore = new ArrayList<>();
+            maxScore.add(12);
+            ArrayList<Integer> ScoresToConsider=new ArrayList<>();
+            ScoresToConsider.add(1);
+            ScoresToConsider.add(-1);
+            ScoresToConsider.add(-1);
+            ScoresToConsider.add(-1);
+            ScoresToConsider.add(-1);
+            list.add(new SubjectSync("DST", 1, "Enter marks for C1", topperScore, testName, maxScore,ScoresToConsider));
+            topperScore.add(11);
+            testName.add("Quiz-2");
+            maxScore.add(16);
+            ArrayList<Integer> ScoresToConsider2=new ArrayList<>();
+            ScoresToConsider2.add(1);
+            ScoresToConsider2.add(1);
+            ScoresToConsider2.add(-1);
+            ScoresToConsider2.add(-1);
+            ScoresToConsider2.add(-1);
+            list.add(new SubjectSync("UMC", 2, "Enter marks for C1, Quiz-2", topperScore, testName, maxScore,ScoresToConsider2));*/
+

@@ -3,23 +3,23 @@ package com.kinshuu.silverbook;
 import java.util.ArrayList;
 
 public class SubjectSync {
-    String Sub_name;
-    int NoOfTests;
-    String ExamName;
-    ArrayList<Integer> TopperScore;
-    ArrayList<String> TestNames;
-    ArrayList<Integer> MaxScores;
-    Integer ScoreToConsider[]={-1,-1,-1,-1,-1};
+    private String Sub_name;
+    private int NoOfTests;
+    private String ExamName;
+    private ArrayList<Integer> TopperScore;
+    private ArrayList<String> TestNames;
+    private ArrayList<Integer> MaxScores= new ArrayList<>();
+    private ArrayList<Integer> ScoreToConsider= new ArrayList<>();
 
-    public Integer[] getScoreToConsider() {
+    public ArrayList<Integer> getScoreToConsider() {
         return ScoreToConsider;
     }
 
-    public void setScoreToConsider(Integer[] scoreToConsider) {
+    public void setScoreToConsider(ArrayList<Integer> scoreToConsider) {
         ScoreToConsider = scoreToConsider;
     }
 
-    public SubjectSync(String sub_name, int noOfTests, String examName, ArrayList<Integer> topperScore, ArrayList<String> testNames, ArrayList<Integer> maxScores, Integer[] scoresToConsider) {
+    public SubjectSync(String sub_name, int noOfTests, String examName, ArrayList<Integer> topperScore, ArrayList<String> testNames, ArrayList<Integer> maxScores, ArrayList<Integer> scoresToConsider) {
         Sub_name = sub_name;
         NoOfTests = noOfTests;
         ExamName = examName;
@@ -57,8 +57,8 @@ public class SubjectSync {
         return NoOfTests;
     }
 
-    public void setNoOfTests(int NoOfTests) {
-        this.NoOfTests = NoOfTests;
+    public void setNoOfTests(int NoofTests) {
+        this.NoOfTests = NoofTests;
     }
 
     public String getExamName() {
@@ -73,10 +73,11 @@ public class SubjectSync {
         return TopperScore;
     }
 
-    public void setTopperScore(ArrayList<Integer> TopperScore
-    ) {
+    public void setTopperScore(ArrayList<Integer> TopperScore) {
         this.TopperScore = TopperScore;
     }
+
+    public SubjectSync(){}
 }
 
 

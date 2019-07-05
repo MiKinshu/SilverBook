@@ -2,9 +2,7 @@ package com.kinshuu.silverbook;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 
-import static android.support.constraint.Constraints.TAG;
 
 public class Subject implements Parcelable {
     private int totaldays,present;

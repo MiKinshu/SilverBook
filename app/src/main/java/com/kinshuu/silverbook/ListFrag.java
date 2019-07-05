@@ -2,10 +2,10 @@ package com.kinshuu.silverbook;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import static android.support.constraint.Constraints.TAG;
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -22,7 +22,7 @@ import static android.support.constraint.Constraints.TAG;
 public class ListFrag extends Fragment {
 
     RecyclerView recyclerview;
-    RecyclerView.Adapter myadapter;
+    public RecyclerView.Adapter myadapter;
     RecyclerView.LayoutManager layoutManager;
     View view;
     ArrayList<Subject> subjects;
@@ -44,6 +44,7 @@ public class ListFrag extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Log.d(TAG, "onActivityCreated: ");
         recyclerview =view.findViewById(R.id.list);
         recyclerview.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this.getActivity());
@@ -58,13 +59,17 @@ public class ListFrag extends Fragment {
     }
 
     //This is a bundle from main activity, it contains the local subjects ArrayList.
-
     public void getArgs(Bundle args){
-        subjects= args.getParcelableArrayList("arraylist");
+        subjects=args.getParcelableArrayList("arraylist");
         elegible=args.getInt("elegible");
-        Log.d(TAG, "getArgs: Bundle Recieved");
-        if(subjects!=null)
-            Log.d(TAG, "getArgs: "+subjects.get(0).getSub_name());
+        Log.d(TAG, "getArgs: List recieved");
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: In oncreat");
+    }
+
+    public void emptyfun(){}
 }
