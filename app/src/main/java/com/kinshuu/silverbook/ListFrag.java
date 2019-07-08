@@ -26,7 +26,7 @@ public class ListFrag extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     View view;
     ArrayList<Subject> subjects;
-    Integer elegible;
+    Integer elegible=1;
 
     public ListFrag() {
         // Required empty public constructor
@@ -71,5 +71,4 @@ public class ListFrag extends Fragment {
         Log.d(TAG, "onCreate: In oncreat");
     }
 
-    public void emptyfun(){}
 }

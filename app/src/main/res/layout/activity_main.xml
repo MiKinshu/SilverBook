@@ -7,19 +7,13 @@
     android:id="@+id/layout_portrait"
     android:orientation="horizontal" >
 
-    <fragment
-        android:id="@+id/list_frag"
-        android:tag="list_frag"
-        android:name="com.kinshuu.silverbook.ListFrag"
+    <FrameLayout
+        android:id="@+id/fragCont_portrait"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:layout_height="match_parent">
 
-    <fragment
-        android:id="@+id/detail_frag"
-        android:name="com.kinshuu.silverbook.DetailFrag"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+    </FrameLayout>
 
 </LinearLayout>
+
+
