@@ -95,26 +95,38 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             getSupportFragmentManager().executePendingTransactions();
             listFrag=(ListFrag)getSupportFragmentManager().findFragmentByTag("listfrag");
         }
-        //Getting user preferences.
-        SharedPreferences faveditor=getSharedPreferences("com.kinshuu.silverbook.ft",MODE_PRIVATE);
-        firsttime=faveditor.getInt("FT",1);
-        faveditor=getSharedPreferences("com.kinshuu.silverbook.ref",MODE_PRIVATE);
-        College=faveditor.getString("College","null");
-        Toast.makeText(this, "College is "+College, Toast.LENGTH_SHORT).show();
-        Branch=faveditor.getString("Branch","null");
-        Toast.makeText(this, "Branch is "+Branch, Toast.LENGTH_SHORT).show();
-        YearOfJoining=faveditor.getInt("YearOfJoining",0);
 
-        if(College.equals("null")||Branch.equals("null")||YearOfJoining==0) {
-            Log.d(TAG, "onCreate: Going to take preference from user!");
-            Intent intent = new Intent(MainActivity.this, com.kinshuu.silverbook.UserOrientation.class);
-            startActivityForResult(intent, RC_USER_PREF);
-            gotpreference=0;
+        //Getting user preferences.
+        if(savedInstanceState==null) {//All these are disk operations.
+            SharedPreferences faveditor = getSharedPreferences("com.kinshuu.silverbook.ft", MODE_PRIVATE);
+            firsttime = faveditor.getInt("FT", 1);
+            faveditor = getSharedPreferences("com.kinshuu.silverbook.ref", MODE_PRIVATE);
+            College = faveditor.getString("College", "null");
+            Toast.makeText(this, "College is " + College, Toast.LENGTH_SHORT).show();
+            Branch = faveditor.getString("Branch", "null");
+            Toast.makeText(this, "Branch is " + Branch, Toast.LENGTH_SHORT).show();
+            YearOfJoining = faveditor.getInt("YearOfJoining", 0);
+
+            if (College.equals("null") || Branch.equals("null") || YearOfJoining == 0) {
+                Log.d(TAG, "onCreate: Going to take preference from user!");
+                Intent intent = new Intent(MainActivity.this, com.kinshuu.silverbook.UserOrientation.class);
+                startActivityForResult(intent, RC_USER_PREF);
+                gotpreference = 0;
+            }
+            subjectsmain = LoadData();
+        }
+
+        else{
+            firsttime=savedInstanceState.getInt("firsttime");
+            YearOfJoining=savedInstanceState.getInt("YearOfJoining");
+            College=savedInstanceState.getString("College");
+            Branch=savedInstanceState.getString("Branch");
+            subjectsmain=savedInstanceState.getParcelableArrayList("subjectsmain");
         }
 
         if(YearOfJoining>2017&&College.equals("IIIT-A"))
             Eligible=1;
-
+        subjectSyncArrayList = SyncData();
         mFirebaseDatabase=FirebaseDatabase.getInstance();
         mFirebaseAuth=FirebaseAuth.getInstance();
         msubjectsDatabaseReference=mFirebaseDatabase.getReference().child(College).child(YearOfJoining.toString()).child(Branch);
@@ -122,9 +134,6 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         Log.d(TAG, "onCreate: College is "+College);
         Log.d(TAG, "onCreate: Branch is "+Branch);
         Log.d(TAG, "onCreate: YearOfJoining is "+YearOfJoining);
-
-        subjectSyncArrayList=SyncData();
-        subjectsmain = LoadData();
 
         //Following code sends data to the list frag, what's important is Activity's OnCreate finishes before Fragments OnActivityCreated starts.
         Bundle bundle = new Bundle();
@@ -135,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         }
         else
             Log.d(TAG, "onCreate: List frag is null");
+
         mAuthStateListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -162,6 +172,16 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             }
         };
         Log.d(TAG, "onCreate: OnCreate ends");
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt("firsttime",firsttime);
+        outState.putInt("YearOfJoining",YearOfJoining);
+        outState.putString("College",College);
+        outState.putString("Branch",Branch);
+        outState.putParcelableArrayList("subjectsmain",subjectsmain);
+        super.onSaveInstanceState(outState);
     }
 
     //This function is used to update the visibility of views as per the constraints.
@@ -368,14 +388,12 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         subjectsmain.get(indexmain).setPresent(classesattended);
         subjectsmain.get(indexmain).setTotaldays(totalclasses);
         subjectsmain.get(indexmain).calculatepercent();
-        setdetailfragnoback(indexmain);
-        FragmentManager fm = getSupportFragmentManager();
-        listFrag.myadapter.notifyDataSetChanged();
+        UpdateDetailFrag(indexmain);//Update Detail Fragment.
+        listFrag.myadapter.notifyDataSetChanged();//Update List Fragment.
     }
 
     //This function is used to set up the detail frag when an item is clicked on list frag.
     public void setdetailfrag(final int index){
-
         if(findViewById(R.id.layout_portrait)!=null){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragCont_portrait,detailFrag,"detailfrag");
@@ -388,39 +406,9 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             ft.replace(R.id.list_frag_cont,listFrag,"listfrag");
             ft.replace(R.id.detail_frag_cont,detailFrag,"detailfrag");
             ft.commit();
-            ft.addToBackStack(null);
             getSupportFragmentManager().executePendingTransactions();
         }
-        addDataset(pieChart, subjectsmain, index);//setting up pie chart
-        //now setting up detail frag.
-        UpdateViewVisibility(index);
-        TextView TVsubjectnameDF;
-        TextView TVattendancefraction;
-        Button BTNeditattendance;
-        TVattendancefraction=findViewById(R.id.TVAttendanceFraction);
-        TVsubjectnameDF=findViewById(R.id.TVSubjectNameDF);
-        TVsubjectnameDF.setText(subjectsmain.get(index).getSub_name());
-        TextView TVGPAforcastDF=findViewById(R.id.TVGPAforcastDF);
-        TVGPAforcastDF.setText("Press Calculate to know your GPA.");
-        String attendance= subjectsmain.get(index).getPresent()+"/"+subjectsmain.get(index).getTotaldays();
-        TVattendancefraction.setText(attendance);
-        BTNeditattendance=findViewById(R.id.BTNEditAttendance);
-        BTNeditattendance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                OpenPopup();
-                indexmain=index;
-            }
-        });
-
-        Button BTNcalculateGPA=findViewById(R.id.BTNcalculateGPA);
-        BTNcalculateGPA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculateGPA(index);
-                listFrag.myadapter.notifyDataSetChanged();
-            }
-        });
+        UpdateDetailFrag(index);
     }
 
     //This function does GPA calculation and flashes the result on screen
@@ -601,10 +589,9 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     }
 
     //This function also sets up detail frag but without adding to the back stack.
-    public void setdetailfragnoback(final int index){
-        Log.d("Inonitemclicked","at beginning");
-        addDataset(pieChart, subjectsmain, index);//setting up pie chart
+    public void UpdateDetailFrag(final int index){
         //now setting up detail frag.
+        addDataset(pieChart, subjectsmain, index);//setting up pie chart
         UpdateViewVisibility(index);
         TextView TVsubjectnameDF;
         TextView TVattendancefraction;
@@ -612,7 +599,6 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         TVattendancefraction=findViewById(R.id.TVAttendanceFraction);
         TVsubjectnameDF=findViewById(R.id.TVSubjectNameDF);
         TVsubjectnameDF.setText(subjectsmain.get(index).getSub_name());
-        BTNeditattendance=findViewById(R.id.BTNEditAttendance);
         TextView TVGPAforcastDF=findViewById(R.id.TVGPAforcastDF);
         TVGPAforcastDF.setText("Press Calculate to know your GPA.");
         String attendance= subjectsmain.get(index).getPresent()+"/"+subjectsmain.get(index).getTotaldays();
@@ -625,26 +611,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 indexmain=index;
             }
         });
-
         Button BTNcalculateGPA=findViewById(R.id.BTNcalculateGPA);
         BTNcalculateGPA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //calculateGPA(index);
+                calculateGPA(index);
+                listFrag.myadapter.notifyDataSetChanged();
             }
         });
-
-        if(findViewById(R.id.layout_portrait)!=null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            FragmentManager fm = getSupportFragmentManager();
-            if (detailFrag != null) {
-                ft.show(detailFrag);
-            }
-            if (listFrag != null)
-                ft.hide(listFrag);
-            ft.commit();
-        }
-    }// Dont forget to update this function as per setdetailfrag.
+    }
 
     //This function saves data locally.
     private void SaveData(){
@@ -844,5 +819,19 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             }
         }
         Log.d(TAG, "onActivityResult: Exiting ActivityResult");
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("detailfrag"))==getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragCont_portrait,listFrag,"listfrag");
+            ft.commit();
+            getSupportFragmentManager().executePendingTransactions();
+        }
+        else if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("detailfrag"))!=getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait))
+            finish();
+        else
+            super.onBackPressed();
     }
 }
