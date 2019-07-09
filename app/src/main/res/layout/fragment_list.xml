@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".ListFrag"
     android:orientation="vertical"
-    android:background="@color/colorPrimaryLight">
+    android:background="#ffffff">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list"

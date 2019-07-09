@@ -70,19 +70,19 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
 
             case R.id.spinnerBatch:{
                 Batch=Integer.parseInt(parent.getItemAtPosition(position).toString());
-                Toast.makeText(this, Batch+"", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, Batch+"", Toast.LENGTH_SHORT).show();
                 Log.d("UserOrientation", "onItemSelected: "+Batch);
                 break;
             }
             case R.id.spinnerCollege:{
                 College=parent.getItemAtPosition(position).toString();
-                Toast.makeText(this, College, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, College, Toast.LENGTH_SHORT).show();
                 Log.d("UserOrientation", "onItemSelected: "+College);
                 break;
             }
             case R.id.spinnerBranch:{
                 Branch=parent.getItemAtPosition(position).toString();
-                Toast.makeText(this, Branch, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, Branch, Toast.LENGTH_SHORT).show();
                 break;
             }
         }

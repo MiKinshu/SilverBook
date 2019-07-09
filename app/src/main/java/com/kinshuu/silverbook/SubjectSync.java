@@ -10,6 +10,7 @@ public class SubjectSync {
     private ArrayList<String> TestNames;
     private ArrayList<Integer> MaxScores= new ArrayList<>();
     private ArrayList<Integer> ScoreToConsider= new ArrayList<>();
+    private int credit;
 
     public ArrayList<Integer> getScoreToConsider() {
         return ScoreToConsider;
@@ -17,6 +18,14 @@ public class SubjectSync {
 
     public void setScoreToConsider(ArrayList<Integer> scoreToConsider) {
         ScoreToConsider = scoreToConsider;
+    }
+
+    public int getCredit() {
+        return credit;
+    }
+
+    public void setCredit(int credit) {
+        this.credit = credit;
     }
 
     public SubjectSync(String sub_name, int noOfTests, String examName, ArrayList<Integer> topperScore, ArrayList<String> testNames, ArrayList<Integer> maxScores, ArrayList<Integer> scoresToConsider) {

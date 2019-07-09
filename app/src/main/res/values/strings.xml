@@ -6,4 +6,6 @@
     <string name="edit_attendance">Edit Attendance</string>
     <string name="classes_attended">Classes Attended:</string>
     <string name="total_classes">Total Classes:</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
 </resources>

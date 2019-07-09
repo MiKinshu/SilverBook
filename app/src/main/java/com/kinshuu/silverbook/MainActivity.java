@@ -1,17 +1,24 @@
 package com.kinshuu.silverbook;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.Group;
-import androidx.fragment.app.FragmentManager;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +31,7 @@ import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -40,13 +48,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements SubjectAdapter.itemclicked, PopupDiaogue.PopupDialogueListener {
+public class MainActivity extends AppCompatActivity implements SubjectAdapter.itemclicked, PopupDiaogue.PopupDialogueListener, NavigationView.OnNavigationItemSelectedListener {
     //request codes for ActivityResult
     private static final int RC_SIGN_IN = 1;
     private static final int RC_USER_PREF=23;
 
     //declaring all views.
     PieChart pieChart;//for setting up PieChart in detail frag.
+    TextView TVnavheadname;
 
     //variables for runtime manipulation.
     Integer indexmain=0;
@@ -75,12 +84,35 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     ListFrag listFrag;
     DetailFrag detailFrag;
 
+    //for navigation drawer
+    Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: Starting OnCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        toolbar=findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawerLayout=findViewById(R.id.navigation_drawer);
+
+        navigationView=findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                TVnavheadname=findViewById(R.id.TVnavheadname);
+                if(mUsername.equals("ANONYMOUS")){}
+                else
+                    TVnavheadname.setText("Hi! "+mUsername);
+            }
+        };
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
         listFrag=new ListFrag();
         detailFrag = new DetailFrag();
         if(findViewById(R.id.layout_portrait)==null) {
@@ -95,16 +127,17 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             getSupportFragmentManager().executePendingTransactions();
             listFrag=(ListFrag)getSupportFragmentManager().findFragmentByTag("listfrag");
         }
-
         //Getting user preferences.
         if(savedInstanceState==null) {//All these are disk operations.
-            SharedPreferences faveditor = getSharedPreferences("com.kinshuu.silverbook.ft", MODE_PRIVATE);
+            SharedPreferences faveditor = getSharedPreferences("com.kinshuu.silverbook.ref", MODE_PRIVATE);
             firsttime = faveditor.getInt("FT", 1);
+            Log.d(TAG, "onCreate: firsttime recieved is "+firsttime);
             faveditor = getSharedPreferences("com.kinshuu.silverbook.ref", MODE_PRIVATE);
             College = faveditor.getString("College", "null");
-            Toast.makeText(this, "College is " + College, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "College is " + College, Toast.LENGTH_SHORT).show();
             Branch = faveditor.getString("Branch", "null");
-            Toast.makeText(this, "Branch is " + Branch, Toast.LENGTH_SHORT).show();
+            //
+            //Toast.makeText(this, "Branch is " + Branch, Toast.LENGTH_SHORT).show();
             YearOfJoining = faveditor.getInt("YearOfJoining", 0);
 
             if (College.equals("null") || Branch.equals("null") || YearOfJoining == 0) {
@@ -117,12 +150,14 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         }
 
         else{
+            Log.d(TAG, "onCreate: getting from savedinstance");
             firsttime=savedInstanceState.getInt("firsttime");
             YearOfJoining=savedInstanceState.getInt("YearOfJoining");
             College=savedInstanceState.getString("College");
             Branch=savedInstanceState.getString("Branch");
             subjectsmain=savedInstanceState.getParcelableArrayList("subjectsmain");
         }
+        Log.d(TAG, "onCreate: firsttime is "+firsttime);
 
         if(YearOfJoining>2017&&College.equals("IIIT-A"))
             Eligible=1;
@@ -151,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 FirebaseUser user= firebaseAuth.getCurrentUser();
                 if(user!=null){
                     //user is signed in.
-                    Toast.makeText(MainActivity.this, "Welcome to the App you Son of a Gun", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "Welcome to the App you Son of a Gun", Toast.LENGTH_SHORT).show();
                     Log.d(TAG, "onAuthStateChanged: User is signed in");
                     OnSignedInInitialise(user.getDisplayName());
                 }
@@ -162,7 +197,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     startActivityForResult(
                             AuthUI.getInstance()
                                     .createSignInIntentBuilder()
-                                    .setIsSmartLockEnabled(false)//Experiment with this.
+                                    .setIsSmartLockEnabled(false)
+                                    .setLogo(R.drawable.ic_graduate)//Experiment with this.
                                     .setAvailableProviders(Arrays.asList(
                                             new AuthUI.IdpConfig.GoogleBuilder().build(),
                                             new AuthUI.IdpConfig.EmailBuilder().build()))
@@ -201,6 +237,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         EditText ETuserscore4=findViewById(R.id.ETuserscore4);
         EditText ETuserscore5=findViewById(R.id.ETuserscore5);
 
+
         if(Eligible==0){
             group1.setVisibility(View.GONE);
             group2.setVisibility(View.GONE);
@@ -210,10 +247,30 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             groupGPI.setVisibility(View.GONE);
             TVGPAhead.setText("GPA forcast is only available for IIIT-A batch 2k18 or later.");
         }
+        else if(i>=subjectSyncArrayList.size()){
+            group1.setVisibility(View.GONE);
+            group2.setVisibility(View.GONE);
+            group3.setVisibility(View.GONE);
+            group4.setVisibility(View.GONE);
+            group5.setVisibility(View.GONE);
+            groupGPI.setVisibility(View.GONE);
+            TVGPAhead.setText("Forcast not available for this subject");
+        }
         else{
             TextView TVtestnames=findViewById(R.id.TVtestnames);
             TVtestnames.setText(subjectSyncArrayList.get(i).getExamName());
             switch (subjectSyncArrayList.get(i).getNoOfTests()){
+                case 0:{
+                    group1.setVisibility(View.GONE);
+                    group2.setVisibility(View.GONE);
+                    group3.setVisibility(View.GONE);
+                    group4.setVisibility(View.GONE);
+                    group5.setVisibility(View.GONE);
+                    groupGPI.setVisibility(View.GONE);
+                    TVGPAhead.setText("GPA forcast would be visible once the results for the first test are out :)");
+                    break;
+                }
+
                 case 1:{
                     group2.setVisibility(View.GONE);
                     group3.setVisibility(View.GONE);
@@ -636,7 +693,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         String json1=gson1.toJson(subjectSyncArrayList);
         editor1.putString("subjectssynclist",json1);
         editor1.apply();
-        Log.d(TAG, "SaveData: ArrayLists saved!+ size of synclist is "+subjectSyncArrayList.size());
+        //Log.d(TAG, "SaveData: ArrayLists saved!+ size of synclist is "+subjectSyncArrayList.size());
     }
 
     //This function loads data from the local storage.
@@ -692,25 +749,18 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     protected void onResume(){
         Log.d(TAG, "onResume: OnResume starts");
         super.onResume();
+        Log.d(TAG, "onResume: gotpreference is "+gotpreference+" and firsttime is "+firsttime);
         if(gotpreference==1||firsttime==0) {
             mFirebaseAuth.addAuthStateListener(mAuthStateListener);
             Log.d(TAG, "onResume: Attached AuthStateListener");
         }
         //setting up detail frag to 0th element if phone is in landscape mode.
-        if(findViewById(R.id.layout_portrait)==null){
+
+        if(firsttime==0&&findViewById(R.id.layout_portrait)==null){
             setdetailfrag(0);
         }
+        navigationView.setCheckedItem(R.id.nav_home);
         Log.d(TAG, "onResume: OnResume Ends");
-    }
-
-
-    private void OnSignedOutInitialise() {
-        Signed_In=0;
-        mUsername="ANONYMOUS";
-        if(mChildEventListener!=null) {
-            msubjectsDatabaseReference.removeEventListener(mChildEventListener);
-            mChildEventListener = null;
-        }
     }
 
     private void OnSignedInInitialise(String displayName) {
@@ -757,18 +807,20 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             msubjectsDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Toast.makeText(MainActivity.this, "Data Updated :)", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(MainActivity.this, "Data Updated :)", Toast.LENGTH_SHORT).show();
                     subjectSyncArrayList = subjectSyncArrayListtemp;
                     Log.d(TAG, "onDataChange: Data Synced from cloud");
                     if (firsttime == 1) {
                         //changing firsttime to 0.
-                        SharedPreferences.Editor faveditor = getSharedPreferences("com.kinshuu.silverbook.ft", MODE_PRIVATE).edit();
+                        firsttime=0;
+                        SharedPreferences.Editor faveditor = getSharedPreferences("com.kinshuu.silverbook.ref", MODE_PRIVATE).edit();
                         faveditor.putInt("FT", 0);
                         faveditor.apply();
                         Log.d(TAG, "onDataChange: Saved shared preference");
                         Log.d(TAG, "onDataChange: Firsttime==1 and thus going to InitialiseSub");
                         subjectsmain = InitialiseSub();
                         Log.d(TAG, "onDataChange: initialised subjects main");
+                        Toast.makeText(MainActivity.this, "Tap on a subject to view details.", Toast.LENGTH_LONG).show();
                         recreate();
                     }
                 }
@@ -792,6 +844,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 YearOfJoining=data.getIntExtra("Batch",0);
                 msubjectsDatabaseReference=mFirebaseDatabase.getReference().child(College).child(YearOfJoining.toString()).child(Branch);
                 SharedPreferences.Editor faveditor = getSharedPreferences("com.kinshuu.silverbook.ref", MODE_PRIVATE).edit();
+                faveditor.putInt("FT", 0);
                 faveditor.putString("Branch", Branch);
                 faveditor.putString("College",College);
                 faveditor.putInt("YearOfJoining",YearOfJoining);
@@ -799,7 +852,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 gotpreference=1;
                 if(YearOfJoining>2017&&College.equals("IIIT-A"))
                     Eligible=1;
-                Log.d(TAG, "In MainActivity class College, Branch and Batch recieved are "+College+","+Branch+","+YearOfJoining);
+                Log.d(TAG, "In MainActivity class College, Branch and Batch received are "+College+","+Branch+","+YearOfJoining);
             }
             if(resultCode==RESULT_CANCELED){
                 Toast.makeText(this, "Cannot work until you provide given info", Toast.LENGTH_SHORT).show();
@@ -813,6 +866,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 faveditor.putString("Branch", "null");
                 faveditor.putString("College", "null");
                 faveditor.putInt("YearOfJoining", 0);
+                faveditor.putInt("FT",1);
                 faveditor.apply();
                 Toast.makeText(this, "Cannot work until you Sign-In", Toast.LENGTH_SHORT).show();
                 finish();
@@ -823,15 +877,145 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
 
     @Override
     public void onBackPressed() {
-        if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("detailfrag"))==getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)){
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("listfrag"))!=getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragCont_portrait,listFrag,"listfrag");
             ft.commit();
             getSupportFragmentManager().executePendingTransactions();
+            navigationView.setCheckedItem(R.id.nav_home);
         }
-        else if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("detailfrag"))!=getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait))
+        else if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("listfrag"))==getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait))
             finish();
+        else if(findViewById(R.id.layout_portrait)==null&&(getSupportFragmentManager().findFragmentByTag("detailfrag"))!=getSupportFragmentManager().findFragmentById(R.id.detail_frag_cont)){
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.detail_frag_cont,detailFrag,"detailfrag");
+            ft.commit();
+            getSupportFragmentManager().executePendingTransactions();
+            navigationView.setCheckedItem(R.id.nav_home);
+        }
         else
             super.onBackPressed();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.nav_home:{
+                if(findViewById(R.id.layout_portrait)==null&&(getSupportFragmentManager().findFragmentByTag("detailfrag"))!=getSupportFragmentManager().findFragmentById(R.id.detail_frag_cont)) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, detailFrag,"detailfrag").commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                else{
+                    if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("listfrag"))!=getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
+                        getSupportFragmentManager().executePendingTransactions();
+                    }
+                }
+                break;
+            }
+            case R.id.nav_about:{
+                if(findViewById(R.id.layout_portrait)!=null) {
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragCont_portrait, new AboutFrag()).commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                else {
+                    getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, new AboutFrag()).commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                break;
+            }
+            case R.id.nav_addSub:{
+                AddSub addSub= new AddSub();
+                if(findViewById(R.id.layout_portrait)!=null) {
+                    getSupportFragmentManager().beginTransaction().add(R.id.fragCont_portrait, addSub).commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                else {
+                    getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, addSub).commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                Button BTNaddsub=findViewById(R.id.BTNaddsub);
+                final EditText ETaddsubpresent=findViewById(R.id.ETaddsubpresent);
+                final EditText ETaddsubtotalclass= findViewById(R.id.ETaddsubtotalclass);
+                final EditText ETaddsubname=findViewById(R.id.ETaddsubname);
+                BTNaddsub.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(ETaddsubname.getText().toString().equals("")||
+                                Integer.parseInt(ETaddsubtotalclass.getText().toString())<Integer.parseInt(ETaddsubpresent.getText().toString()))
+                            Toast.makeText(MainActivity.this, "Enter Valid numbers :)", Toast.LENGTH_SHORT).show();
+                        else {
+                            Subject subject= new Subject(ETaddsubname.getText().toString());
+                            subject.setPresent(Integer.parseInt(ETaddsubpresent.getText().toString()));
+                            subject.setTotaldays(Integer.parseInt(ETaddsubtotalclass.getText().toString()));
+                            subject.calculatepercent();
+                            subjectsmain.add(subject);
+                            listFrag.myadapter.notifyDataSetChanged();
+                            Toast.makeText(MainActivity.this, "Subject Added!", Toast.LENGTH_SHORT).show();
+                            if(findViewById(R.id.layout_portrait)!=null) {
+                                getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
+                                getSupportFragmentManager().executePendingTransactions();
+                            }
+                            else{
+                                getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
+                                getSupportFragmentManager().executePendingTransactions();
+                            }
+                            navigationView.setCheckedItem(R.id.nav_home);
+                        }
+                    }
+                });
+                break;
+            }
+            case R.id.nav_feedback:{
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:" + "iit2018199@iiita.ac.in"));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "SilverBook Feedback.");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+                startActivity(Intent.createChooser(emailIntent, "Chooser Title"));
+                break;
+            }
+            case R.id.nav_reset:{
+                new AlertDialog.Builder(this)
+                        .setTitle("Reset App")
+                        .setMessage("Are you sure you want to reset the app? This cannot be undone.")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Continue with delete operation
+                                SharedPreferences.Editor faveditor = getSharedPreferences("com.kinshuu.silverbook.ref", MODE_PRIVATE).edit();
+                                faveditor.putString("Branch", "null");
+                                faveditor.putString("College", "null");
+                                faveditor.putInt("YearOfJoining", 0);
+                                firsttime=1;
+                                faveditor.putInt("FT",firsttime);
+                                faveditor.apply();
+                                subjectsmain=null;
+                                subjectSyncArrayList=null;
+                                AuthUI.getInstance().signOut(MainActivity.this);
+                                Toast.makeText(MainActivity.this, "Cleared all data, Exitting App", Toast.LENGTH_LONG).show();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+                break;
+            }
+            case R.id.nav_share:{
+                Intent shareapp=new Intent(Intent.ACTION_SEND);
+                shareapp.setType("text/plain");
+                String s="Hey checkout this cool SilverBook app. It has a lot of awesome features like GPA forcast, attendance forcast, attendance tracking etc. This app is my daily driver :)";
+                shareapp.putExtra(Intent.EXTRA_TEXT,s);
+                startActivity(Intent.createChooser(shareapp,"Share App"));
+                break;
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
 }
+
+
+
+//
