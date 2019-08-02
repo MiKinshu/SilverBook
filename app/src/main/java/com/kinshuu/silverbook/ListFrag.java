@@ -47,6 +47,7 @@ public class ListFrag extends Fragment {
         Log.d(TAG, "onActivityCreated: ");
         recyclerview =view.findViewById(R.id.list);
         recyclerview.setHasFixedSize(true);
+        //recyclerview.setPadding(5,1,5,1);
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerview.setLayoutManager(layoutManager);
         if(subjects==null) {
@@ -70,5 +71,4 @@ public class ListFrag extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(TAG, "onCreate: In oncreat");
     }
-
 }

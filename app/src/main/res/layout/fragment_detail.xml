@@ -7,6 +7,7 @@
     android:id="@+id/scrollView2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
     android:orientation="vertical"
     tools:context=".DetailFrag">
 
@@ -77,10 +78,11 @@
                 <Button
                     android:id="@+id/BTNEditAttendance"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="2dp"
+                    android:background="@color/colorButtons"
                     android:text="Edit Attendance"
                     android:textSize="11sp"
                     app:layout_constraintBottom_toTopOf="@+id/guideline"
@@ -328,7 +330,6 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="8dp"
                     android:text="Enter marks for Quiz-1,Quiz-2,Quiz-3,Quiz-4,Quiz-5."
-                    app:layout_constraintBottom_toTopOf="@+id/scrollView2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/TVGPAhead" />
@@ -336,10 +337,11 @@
                 <Button
                     android:id="@+id/BTNcalculateGPA"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:background="@color/colorButtons"
                     android:text="Calculate"
                     android:textSize="11sp"
                     app:layout_constraintBottom_toBottomOf="parent"

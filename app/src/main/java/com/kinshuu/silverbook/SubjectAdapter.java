@@ -1,13 +1,21 @@
 package com.kinshuu.silverbook;
 
+import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.firebase.ui.auth.AuthUI;
 
 import java.util.ArrayList;
 
@@ -51,13 +59,33 @@ public class SubjectAdapter extends RecyclerView.Adapter<SubjectAdapter.viewhold
                     activity.onItemClicked(subjects.indexOf((Subject)v.getTag()));
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(final View v) {
+                    new AlertDialog.Builder(v.getContext())
+                            .setTitle("Delete Subject")
+                            .setMessage("Are you sure you want to delete this Subject? This cannot be undone.")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Continue with delete operation
+                                    notifyItemRemoved(subjects.indexOf((Subject)v.getTag()));
+                                    subjects.remove(subjects.indexOf((Subject)v.getTag()));
+                                    Toast.makeText(v.getContext(), "Subject Deleted!", Toast.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.no, null)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .show();
+                    return true;
+                }
+            });
         }
     }
 
     @NonNull
     @Override
     public SubjectAdapter.viewholder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
         View v= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_items,viewGroup,false);
         return new viewholder(v);
     }

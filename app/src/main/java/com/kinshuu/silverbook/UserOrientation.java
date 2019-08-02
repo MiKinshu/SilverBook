@@ -1,6 +1,5 @@
 package com.kinshuu.silverbook;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 public class UserOrientation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -32,19 +30,19 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
         Spinner spinnerBranch=findViewById(R.id.spinnerBranch);
         BTNcontinue=findViewById(R.id.BTNcontinue);
 
-        String[] spinnerBatchlist={"2018","2017","2019","Others"};
+        String[] spinnerBatchlist={"Others","2017","2018","2019"};
         ArrayAdapter<String> spinnerBatchAdapter= new ArrayAdapter<>(UserOrientation.this, android.R.layout.simple_list_item_1,spinnerBatchlist);
         spinnerBatchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBatch.setAdapter(spinnerBatchAdapter);
         spinnerBatch.setOnItemSelectedListener(this);
 
-        String[] spinnerBranchlist={"IT","ECE","Others"};
+        String[] spinnerBranchlist={"Others","IT","ECE",};
         ArrayAdapter<String> spinnerBranchAdapter= new ArrayAdapter<>(UserOrientation.this, android.R.layout.simple_list_item_1,spinnerBranchlist);
         spinnerBranchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBranch.setAdapter(spinnerBranchAdapter);
         spinnerBranch.setOnItemSelectedListener(this);
 
-        String[] spinnerCollegelist={"IIIT-A", "Others"};
+        String[] spinnerCollegelist={"Others","IIIT-A" };
         ArrayAdapter<String> spinnerCollegeAdapter= new ArrayAdapter<>(UserOrientation.this, android.R.layout.simple_list_item_1,spinnerCollegelist);
         spinnerCollegeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCollege.setAdapter(spinnerCollegeAdapter);
@@ -54,6 +52,21 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent();
+                if(College.equals("Others")){
+                    Batch=1;
+                    Branch="Others";
+                    College="Others";
+                }
+                if(Branch.equals("Others")) {
+                    Batch = 1;
+                    Branch="Others";
+                    College="Others";
+                }
+                if(Branch.equals("null")) {
+                    Batch = 1;
+                    Branch="Others";
+                    College="Others";
+                }
                 intent.putExtra("College",College);
                 intent.putExtra("Branch",Branch);
                 intent.putExtra("Batch",Batch);
@@ -69,19 +82,28 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
         switch (parent.getId()){
 
             case R.id.spinnerBatch:{
-                Batch=Integer.parseInt(parent.getItemAtPosition(position).toString());
+                if(parent.getItemAtPosition(position).toString().equals("Others"))
+                    Batch=0;
+                else
+                    Batch=Integer.parseInt(parent.getItemAtPosition(position).toString());
                 //Toast.makeText(this, Batch+"", Toast.LENGTH_SHORT).show();
                 Log.d("UserOrientation", "onItemSelected: "+Batch);
                 break;
             }
             case R.id.spinnerCollege:{
-                College=parent.getItemAtPosition(position).toString();
+                if(parent.getItemAtPosition(position).toString().equals("Others"))
+                    Batch=0;
+                else
+                    College=parent.getItemAtPosition(position).toString();
                 //Toast.makeText(this, College, Toast.LENGTH_SHORT).show();
                 Log.d("UserOrientation", "onItemSelected: "+College);
                 break;
             }
             case R.id.spinnerBranch:{
-                Branch=parent.getItemAtPosition(position).toString();
+                if(parent.getItemAtPosition(position).toString().equals("Others"))
+                    Batch=0;
+                else
+                    Branch=parent.getItemAtPosition(position).toString();
                 //Toast.makeText(this, Branch, Toast.LENGTH_SHORT).show();
                 break;
             }

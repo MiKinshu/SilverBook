@@ -3,6 +3,8 @@ package com.kinshuu.silverbook;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -384,15 +386,14 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     private ArrayList<Subject> InitialiseSub() {
         Log.d(TAG, "InitialiseSub: Starts");
         ArrayList<Subject> subjects=new ArrayList<>();
-        if(Eligible==1) {
+        if(YearOfJoining!=0) {
             for (int i = 0; i < subjectSyncArrayList.size(); i++)
                 subjects.add(new Subject(subjectSyncArrayList.get(i).getSub_name()));
             Log.d(TAG, "InitialiseSub: Adding subjects from synced list to local list");
         }
-        else {
-            subjects.add(new Subject("Enter your"));
-            subjects.add(new Subject("subjects"));
-            Log.d(TAG, "InitialiseSub: User not eligible therefore loading 2 default subjects.");
+        Log.d(TAG,"YearOfJoining is "+YearOfJoining);
+        if(YearOfJoining==1) {
+            Toast.makeText(this, "Add you subjects from navigation drawer.", Toast.LENGTH_SHORT).show();
         }
         Log.d(TAG, "InitialiseSub: Exitting InitialiseSub");
         return subjects;
@@ -756,7 +757,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         }
         //setting up detail frag to 0th element if phone is in landscape mode.
 
-        if(firsttime==0&&findViewById(R.id.layout_portrait)==null){
+        if(findViewById(R.id.layout_portrait)==null&&subjectsmain!=null&&subjectsmain.size()!=0){
             setdetailfrag(0);
         }
         navigationView.setCheckedItem(R.id.nav_home);
@@ -820,7 +821,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         Log.d(TAG, "onDataChange: Firsttime==1 and thus going to InitialiseSub");
                         subjectsmain = InitialiseSub();
                         Log.d(TAG, "onDataChange: initialised subjects main");
-                        Toast.makeText(MainActivity.this, "Tap on a subject to view details.", Toast.LENGTH_LONG).show();
+                        if(YearOfJoining!=1)
+                            Toast.makeText(MainActivity.this, "Tap on a subject to view details.", Toast.LENGTH_SHORT).show();
                         recreate();
                     }
                 }
@@ -925,6 +927,18 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, new AboutFrag()).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 }
+                TextView Abouthead=findViewById(R.id.textView28);
+                String head="SilverBook v1.18 Pilot-1";
+                String version="1.18 Pilot-1";
+                try {
+                    PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+                    version = pInfo.versionName;
+                    Log.d(TAG,"version name found and is "+version);
+                } catch (PackageManager.NameNotFoundException e) {
+                    e.printStackTrace();
+                }
+                head="SilverBook v"+version;
+                Abouthead.setText(head);
                 break;
             }
             case R.id.nav_addSub:{
@@ -1010,12 +1024,22 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 startActivity(Intent.createChooser(shareapp,"Share App"));
                 break;
             }
+            case R.id.nav_deletesub:{
+                if(findViewById(R.id.layout_portrait)==null&&(getSupportFragmentManager().findFragmentByTag("detailfrag"))!=getSupportFragmentManager().findFragmentById(R.id.detail_frag_cont)) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, detailFrag,"detailfrag").commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                else{
+                    if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("listfrag"))!=getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
+                        getSupportFragmentManager().executePendingTransactions();
+                    }
+                }
+                Toast.makeText(this, "Long press a subject to delete.", Toast.LENGTH_SHORT).show();
+                break;
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }
-
-
-
-//
