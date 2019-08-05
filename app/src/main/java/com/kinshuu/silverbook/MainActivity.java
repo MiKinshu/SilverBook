@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,10 +14,13 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.Group;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,6 +50,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements SubjectAdapter.itemclicked, PopupDiaogue.PopupDialogueListener, NavigationView.OnNavigationItemSelectedListener {
@@ -65,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     Integer gotpreference=0;
     ArrayList<Subject> subjectsmain=new ArrayList<>();//Main local Subjects ArrayList
     ArrayList<SubjectSync> subjectSyncArrayList=new ArrayList<>();//ArrayList synced from firebase.
+    ArrayList<com.kinshuu.silverbook.Log> LogArrayList= new ArrayList<>();//Throughout the code, this list is handled with subjectsmain.
 
     //For managing userdata.
-    Integer Signed_In=0;
     Integer Eligible=0;
     Integer YearOfJoining=0;
     String College="null";
@@ -118,16 +121,17 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         listFrag=new ListFrag();
         detailFrag = new DetailFrag();
         if(findViewById(R.id.layout_portrait)==null) {
-            getSupportFragmentManager().beginTransaction().add(R.id.list_frag_cont, listFrag,"listfrag").commit();
-            getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, detailFrag,"detailfrag").commit();
-            getSupportFragmentManager().executePendingTransactions();
-            listFrag=(ListFrag)getSupportFragmentManager().findFragmentByTag("listfrag");
-            detailFrag=(DetailFrag)getSupportFragmentManager().findFragmentByTag("detailfrag");
+                getSupportFragmentManager().beginTransaction().add(R.id.list_frag_cont, listFrag, "listfrag").commit();
+                getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
+                getSupportFragmentManager().executePendingTransactions();
+                listFrag = (ListFrag) getSupportFragmentManager().findFragmentByTag("listfrag");
+                detailFrag = (DetailFrag) getSupportFragmentManager().findFragmentByTag("detailfrag");
+
         }
         else{
-            getSupportFragmentManager().beginTransaction().add(R.id.fragCont_portrait, listFrag, "listfrag").commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
             getSupportFragmentManager().executePendingTransactions();
-            listFrag=(ListFrag)getSupportFragmentManager().findFragmentByTag("listfrag");
+            listFrag = (ListFrag) getSupportFragmentManager().findFragmentByTag("listfrag");
         }
         //Getting user preferences.
         if(savedInstanceState==null) {//All these are disk operations.
@@ -136,10 +140,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             Log.d(TAG, "onCreate: firsttime recieved is "+firsttime);
             faveditor = getSharedPreferences("com.kinshuu.silverbook.ref", MODE_PRIVATE);
             College = faveditor.getString("College", "null");
-            //Toast.makeText(this, "College is " + College, Toast.LENGTH_SHORT).show();
             Branch = faveditor.getString("Branch", "null");
-            //
-            //Toast.makeText(this, "Branch is " + Branch, Toast.LENGTH_SHORT).show();
             YearOfJoining = faveditor.getInt("YearOfJoining", 0);
 
             if (College.equals("null") || Branch.equals("null") || YearOfJoining == 0) {
@@ -159,11 +160,10 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             Branch=savedInstanceState.getString("Branch");
             subjectsmain=savedInstanceState.getParcelableArrayList("subjectsmain");
         }
-        Log.d(TAG, "onCreate: firsttime is "+firsttime);
-
         if(YearOfJoining>2017&&College.equals("IIIT-A"))
             Eligible=1;
         subjectSyncArrayList = SyncData();
+        LogArrayList= getlog();// getting log from disk.
         mFirebaseDatabase=FirebaseDatabase.getInstance();
         mFirebaseAuth=FirebaseAuth.getInstance();
         msubjectsDatabaseReference=mFirebaseDatabase.getReference().child(College).child(YearOfJoining.toString()).child(Branch);
@@ -172,10 +172,24 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         Log.d(TAG, "onCreate: Branch is "+Branch);
         Log.d(TAG, "onCreate: YearOfJoining is "+YearOfJoining);
 
+        if(findViewById(R.id.layout_portrait)==null) {
+            if (subjectsmain.size() == 0) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, new BlankFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new BlankFragment()).commit();
+            }
+        }
+        else {
+            if (subjectsmain.size() == 0) {
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, new BlankFragment()).commit();
+            }
+        }
+
         //Following code sends data to the list frag, what's important is Activity's OnCreate finishes before Fragments OnActivityCreated starts.
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("arraylist",subjectsmain);
         bundle.putInt("elegible",Eligible);
+        bundle.putParcelableArrayList("loglist",LogArrayList);
+        bundle.putInt("size",subjectSyncArrayList.size());
         if (listFrag != null) {
             listFrag.getArgs(bundle);
         }
@@ -247,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             group4.setVisibility(View.GONE);
             group5.setVisibility(View.GONE);
             groupGPI.setVisibility(View.GONE);
-            TVGPAhead.setText("GPA forcast is only available for IIIT-A batch 2k18 or later.");
+            TVGPAhead.setText("At the moment, GPA forecast is only available for IIIT-A batch 2k18 or later.");
         }
         else if(i>=subjectSyncArrayList.size()){
             group1.setVisibility(View.GONE);
@@ -256,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             group4.setVisibility(View.GONE);
             group5.setVisibility(View.GONE);
             groupGPI.setVisibility(View.GONE);
-            TVGPAhead.setText("Forcast not available for this subject");
+            TVGPAhead.setText("forecast not available for this subject");
         }
         else{
             TextView TVtestnames=findViewById(R.id.TVtestnames);
@@ -269,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     group4.setVisibility(View.GONE);
                     group5.setVisibility(View.GONE);
                     groupGPI.setVisibility(View.GONE);
-                    TVGPAhead.setText("GPA forcast would be visible once the results for the first test are out :)");
+                    TVGPAhead.setText("GPA forecast would be visible once the results for the first test are out :)");
                     break;
                 }
 
@@ -408,8 +422,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         ArrayList<String> xenteries=new ArrayList<>();
         String[] xdata={"absent","present"};
         ArrayList<Integer> colors= new ArrayList<>();
-        colors.add(Color.RED);
-        colors.add(Color.CYAN);
+        colors.add(ContextCompat.getColor(getApplicationContext(), R.color.Pieabsent));
+        colors.add(ContextCompat.getColor(getApplicationContext(), R.color.Piepresent));
         yenteries.add(new PieEntry((subjectsmain.get(index).getTotaldays())-subjectsmain.get(index).getPresent(),"Absent"));
         yenteries.add(new PieEntry(subjectsmain.get(index).getPresent(),"Present"));
 
@@ -448,6 +462,9 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         subjectsmain.get(indexmain).calculatepercent();
         UpdateDetailFrag(indexmain);//Update Detail Fragment.
         listFrag.myadapter.notifyDataSetChanged();//Update List Fragment.
+        com.kinshuu.silverbook.Log log= new com.kinshuu.silverbook.Log(Calendar.getInstance().getTime().toString().split("G")[0]);
+        log.setAction(subjectsmain.get(indexmain).getSub_name()+" : Present changed to "+classesattended+" and total classes changed to "+totalclasses+" on ");
+        LogArrayList.add(log);
     }
 
     //This function is used to set up the detail frag when an item is clicked on list frag.
@@ -633,7 +650,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         GPA = (double) Math.round(GPA * 100) / 100;
                         if(GPA > 10.0)
                             GPA = 10.0;
-                        String returns = "Current GPA is " + Double.toString(GPA);
+                        String returns = "Current GPA is " + GPA;
                         TextView TVGPAforcastDF = findViewById(R.id.TVGPAforcastDF);
                         TVGPAforcastDF.setText(returns);
                         subjectsmain.get(i).setGPA(GPA);
@@ -643,7 +660,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             }
         }
         else
-            Toast.makeText(this, "Forcast not available for this Subject.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "forecast not available for this Subject.", Toast.LENGTH_SHORT).show();
     }
 
     //This function also sets up detail frag but without adding to the back stack.
@@ -694,7 +711,28 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         String json1=gson1.toJson(subjectSyncArrayList);
         editor1.putString("subjectssynclist",json1);
         editor1.apply();
-        //Log.d(TAG, "SaveData: ArrayLists saved!+ size of synclist is "+subjectSyncArrayList.size());
+
+        SharedPreferences SPLogArraylist = Objects.requireNonNull(this).getSharedPreferences("LogArrayList",MODE_PRIVATE);
+        SharedPreferences.Editor editor2=SPLogArraylist.edit();
+        Gson gson2= new Gson ();
+        String json2=gson2.toJson(LogArrayList);
+        editor2.putString("loglist",json2);
+        editor2.apply();
+    }
+
+    //This function loads logarraylist from local storage.
+    private ArrayList<com.kinshuu.silverbook.Log> getlog() {
+        ArrayList<com.kinshuu.silverbook.Log> loglist;
+        SharedPreferences SPLogArraylist = Objects.requireNonNull(this).getSharedPreferences("LogArrayList",MODE_PRIVATE);
+        Gson gson= new Gson();
+        String json = SPLogArraylist.getString("loglist",null);
+        Type type= new TypeToken<ArrayList<com.kinshuu.silverbook.Log>>(){}.getType();
+        loglist=gson.fromJson(json,type);
+        if(loglist==null){
+            loglist=new ArrayList<>();
+        }
+        Log.d(TAG, "getlog: Loaded LogArrayList from disk and size is "+loglist.size());
+        return loglist;
     }
 
     //This function loads data from the local storage.
@@ -756,7 +794,6 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             Log.d(TAG, "onResume: Attached AuthStateListener");
         }
         //setting up detail frag to 0th element if phone is in landscape mode.
-
         if(findViewById(R.id.layout_portrait)==null&&subjectsmain!=null&&subjectsmain.size()!=0){
             setdetailfrag(0);
         }
@@ -808,7 +845,6 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             msubjectsDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    //Toast.makeText(MainActivity.this, "Data Updated :)", Toast.LENGTH_SHORT).show();
                     subjectSyncArrayList = subjectSyncArrayListtemp;
                     Log.d(TAG, "onDataChange: Data Synced from cloud");
                     if (firsttime == 1) {
@@ -821,8 +857,9 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         Log.d(TAG, "onDataChange: Firsttime==1 and thus going to InitialiseSub");
                         subjectsmain = InitialiseSub();
                         Log.d(TAG, "onDataChange: initialised subjects main");
-                        if(YearOfJoining!=1)
-                            Toast.makeText(MainActivity.this, "Tap on a subject to view details.", Toast.LENGTH_SHORT).show();
+                        if(YearOfJoining!=1) {
+                            Toast.makeText(MainActivity.this, "Tap on a subject to view details.", Toast.LENGTH_LONG).show();
+                        }
                         recreate();
                     }
                 }
@@ -974,6 +1011,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                                 getSupportFragmentManager().executePendingTransactions();
                             }
                             else{
+                                getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, listFrag, "listfrag").commit();
                                 getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
                                 getSupportFragmentManager().executePendingTransactions();
                             }
@@ -1006,6 +1044,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                                 faveditor.apply();
                                 subjectsmain=null;
                                 subjectSyncArrayList=null;
+                                LogArrayList=null;
                                 AuthUI.getInstance().signOut(MainActivity.this);
                                 Toast.makeText(MainActivity.this, "Cleared all data, Exitting App", Toast.LENGTH_LONG).show();
                                 finish();
@@ -1019,7 +1058,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             case R.id.nav_share:{
                 Intent shareapp=new Intent(Intent.ACTION_SEND);
                 shareapp.setType("text/plain");
-                String s="Hey checkout this cool SilverBook app. It has a lot of awesome features like GPA forcast, attendance forcast, attendance tracking etc. This app is my daily driver :)";
+                String s="Hey checkout this cool SilverBook app. It has a lot of awesome features like GPA forecast, attendance forecast, attendance tracking etc. This app is my daily driver :)";
                 shareapp.putExtra(Intent.EXTRA_TEXT,s);
                 startActivity(Intent.createChooser(shareapp,"Share App"));
                 break;
@@ -1036,6 +1075,44 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     }
                 }
                 Toast.makeText(this, "Long press a subject to delete.", Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.nav_logbook:{
+                if(findViewById(R.id.layout_portrait)!=null) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, new LogFrag()).commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                else {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new LogFrag()).commit();
+                    getSupportFragmentManager().executePendingTransactions();
+                }
+                final TextView TVlog= findViewById(R.id.TVlog);
+                String Log="";
+                for(int i=LogArrayList.size()-1;i>-1;i--){
+                    Log=Log+LogArrayList.get(i).getAction()+LogArrayList.get(i).getTime()+"\n\n";
+                }
+                TVlog.setText(Log);
+                TVlog.setMovementMethod(new ScrollingMovementMethod());
+                Button BTNresetlog= findViewById(R.id.BTNresetlog);
+                BTNresetlog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Clear Log")
+                                .setMessage("Are you sure you want to clear the log? This cannot be undone.")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // Continue with delete operation
+                                        LogArrayList.clear();
+                                        TVlog.setText("");
+                                        Toast.makeText(MainActivity.this, "Log Cleared!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, null)
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
+                });
                 break;
             }
         }

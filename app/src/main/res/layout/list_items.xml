@@ -25,7 +25,30 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="0dp">
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp">
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechartliGPA"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toEndOf="@+id/piechartli"
+                app:layout_constraintTop_toBottomOf="@+id/TVsubjectNameLF">
+
+            </com.github.mikephil.charting.charts.PieChart>
+
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/piechartli"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TVsubjectNameLF">
+
+            </com.github.mikephil.charting.charts.PieChart>
 
             <TextView
                 android:id="@+id/TVsubjectNameLF"
@@ -43,98 +66,75 @@
 
             <Button
                 android:id="@+id/BTNpresent"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
                 android:background="@color/colorButtons"
                 android:text="Present"
                 android:textColor="#000000"
-                app:layout_constraintEnd_toEndOf="@+id/BTNabsent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/BTNabsent"
-                app:layout_constraintTop_toBottomOf="@+id/TVsubjectNameLF" />
+                app:layout_constraintBottom_toBottomOf="@+id/BTNabsent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/BTNabsent" />
 
             <Button
                 android:id="@+id/BTNabsent"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
-                android:layout_marginTop="2dp"
+                android:layout_width="75dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="8dp"
                 android:background="@color/colorButtons"
                 android:text="Absent"
                 android:textColor="#000000"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BTNpresent" />
+                app:layout_constraintBottom_toTopOf="@+id/textView2"
+                app:layout_constraintEnd_toStartOf="@+id/BTNpresent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/piechartliGPA"
+                app:layout_constraintTop_toTopOf="@+id/piechartli" />
 
             <TextView
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:text="Current GPA is"
+                android:layout_marginBottom="4dp"
+                android:text="GPA"
                 android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TVsubjectNameLF" />
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/TVforcast"
+                app:layout_constraintEnd_toEndOf="@+id/piechartliGPA"
+                app:layout_constraintStart_toStartOf="@+id/piechartliGPA"
+                app:layout_constraintTop_toBottomOf="@+id/piechartliGPA" />
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="2dp"
-                android:text="Current Attendance is"
+                android:layout_marginBottom="4dp"
+                android:gravity="center"
+                android:text="Attendance"
                 android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView1" />
-
-            <TextView
-                android:id="@+id/TVattendance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="8dp"
-                android:text="TextView"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView2"
-                app:layout_constraintEnd_toStartOf="@+id/BTNabsent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView2"
-                app:layout_constraintTop_toTopOf="@+id/textView2" />
-
-            <TextView
-                android:id="@+id/TVGPA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="8dp"
-                android:text="TextView"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView1"
-                app:layout_constraintEnd_toStartOf="@+id/BTNpresent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/textView1"
-                app:layout_constraintTop_toTopOf="@+id/textView1" />
+                android:textSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/TVforcast"
+                app:layout_constraintEnd_toEndOf="@+id/piechartli"
+                app:layout_constraintStart_toStartOf="@+id/piechartli"
+                app:layout_constraintTop_toBottomOf="@+id/piechartli" />
 
             <TextView
                 android:id="@+id/TVforcast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="3dp"
+                android:gravity="center"
                 android:text="You can leave "
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/BTNabsent"
-                app:layout_constraintStart_toStartOf="@+id/textView2"
-                app:layout_constraintTop_toBottomOf="@+id/textView2" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

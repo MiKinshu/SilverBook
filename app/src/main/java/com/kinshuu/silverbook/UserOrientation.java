@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 public class UserOrientation extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -30,19 +31,19 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
         Spinner spinnerBranch=findViewById(R.id.spinnerBranch);
         BTNcontinue=findViewById(R.id.BTNcontinue);
 
-        String[] spinnerBatchlist={"Others","2017","2018","2019"};
+        String[] spinnerBatchlist={"Select","2017","2018","2019","Others"};
         ArrayAdapter<String> spinnerBatchAdapter= new ArrayAdapter<>(UserOrientation.this, android.R.layout.simple_list_item_1,spinnerBatchlist);
         spinnerBatchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBatch.setAdapter(spinnerBatchAdapter);
         spinnerBatch.setOnItemSelectedListener(this);
 
-        String[] spinnerBranchlist={"Others","IT","ECE",};
+        String[] spinnerBranchlist={"Select","IT","ECE","ITBI","Others"};
         ArrayAdapter<String> spinnerBranchAdapter= new ArrayAdapter<>(UserOrientation.this, android.R.layout.simple_list_item_1,spinnerBranchlist);
         spinnerBranchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBranch.setAdapter(spinnerBranchAdapter);
         spinnerBranch.setOnItemSelectedListener(this);
 
-        String[] spinnerCollegelist={"Others","IIIT-A" };
+        String[] spinnerCollegelist={"Select","IIIT-A","Others" };
         ArrayAdapter<String> spinnerCollegeAdapter= new ArrayAdapter<>(UserOrientation.this, android.R.layout.simple_list_item_1,spinnerCollegelist);
         spinnerCollegeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCollege.setAdapter(spinnerCollegeAdapter);
@@ -51,28 +52,35 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
         BTNcontinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent();
-                if(College.equals("Others")){
-                    Batch=1;
-                    Branch="Others";
-                    College="Others";
+                if (College.equals("Select") || Branch.equals("Select")) {
+                    Toast.makeText(UserOrientation.this, "Please make a valid selection", Toast.LENGTH_SHORT).show();
+                    Log.d(TAG, "In User Orientation class onClick: College, Branch and Batch is " + College + "," + Branch + "," + Batch);
                 }
-                if(Branch.equals("Others")) {
-                    Batch = 1;
-                    Branch="Others";
-                    College="Others";
+                else {
+                    Intent intent = new Intent();
+                    if (College.equals("Others")) {
+                        Batch = 1;
+                        Branch = "Others";
+                        College = "Others";
+                    }
+                    if (Branch.equals("Others")) {
+                        Batch = 1;
+                        Branch = "Others";
+                        College = "Others";
+                    }
+                    if (Branch.equals("null")) {
+                        Batch = 1;
+                        Branch = "Others";
+                        College = "Others";
+                    }
+                    Log.d(TAG, "onClick: College, batch and branch"+College+Batch+Branch);
+                    intent.putExtra("College", College);
+                    intent.putExtra("Branch", Branch);
+                    intent.putExtra("Batch", Batch);
+                    setResult(RESULT_OK, intent);
+                    Log.d(TAG, "In User Orientation class onClick: College, Branch and Batch is " + College + "," + Branch + "," + Batch);
+                    UserOrientation.this.finish();
                 }
-                if(Branch.equals("null")) {
-                    Batch = 1;
-                    Branch="Others";
-                    College="Others";
-                }
-                intent.putExtra("College",College);
-                intent.putExtra("Branch",Branch);
-                intent.putExtra("Batch",Batch);
-                setResult(RESULT_OK,intent);
-                Log.d(TAG, "In User Orientation class onClick: College, Branch and Batch is "+College+","+Branch+","+Batch);
-                UserOrientation.this.finish();
             }
         });
     }
@@ -82,29 +90,24 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
         switch (parent.getId()){
 
             case R.id.spinnerBatch:{
-                if(parent.getItemAtPosition(position).toString().equals("Others"))
+                if(parent.getItemAtPosition(position).toString().equals("Others")||parent.getItemAtPosition(position).toString().equals("Select"))
                     Batch=0;
                 else
                     Batch=Integer.parseInt(parent.getItemAtPosition(position).toString());
-                //Toast.makeText(this, Batch+"", Toast.LENGTH_SHORT).show();
                 Log.d("UserOrientation", "onItemSelected: "+Batch);
                 break;
             }
             case R.id.spinnerCollege:{
-                if(parent.getItemAtPosition(position).toString().equals("Others"))
+                if(parent.getItemAtPosition(position).toString().equals("Others")||parent.getItemAtPosition(position).toString().equals("Select"))
                     Batch=0;
-                else
-                    College=parent.getItemAtPosition(position).toString();
-                //Toast.makeText(this, College, Toast.LENGTH_SHORT).show();
+                College=parent.getItemAtPosition(position).toString();
                 Log.d("UserOrientation", "onItemSelected: "+College);
                 break;
             }
             case R.id.spinnerBranch:{
                 if(parent.getItemAtPosition(position).toString().equals("Others"))
                     Batch=0;
-                else
-                    Branch=parent.getItemAtPosition(position).toString();
-                //Toast.makeText(this, Branch, Toast.LENGTH_SHORT).show();
+                Branch=parent.getItemAtPosition(position).toString();
                 break;
             }
         }

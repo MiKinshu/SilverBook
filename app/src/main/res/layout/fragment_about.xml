@@ -16,21 +16,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical">
-
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="About"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/textView28"
             android:layout_width="0dp"
@@ -43,7 +28,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView27" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/textView29"
@@ -52,7 +37,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:text="This version includes all major features that i wanted to include. I have invested a lot of time on this project. If i get the outputs i am expecting i sure would add more features :)"
+            android:text="This version includes all major features that I wanted to include. I have invested a lot of time on this project. If I get the outputs I am expecting, I would surely add more features :)"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +50,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="What to expect in future versions."
+            android:text="What to expect in future versions?"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,9 +61,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="1. An SGPI calculation feature( I really want to add this).\n2. Keeping app fragment fixed across Activity Restarts(Technical terms phew! for better UX).\n3. A location based attendance marking(Fingures crossed).\n4. If you are a developer i would love to collaborate. As you might have observed i badly need a designer xD"
+            android:text="1. An SGPI calculation feature (I really want to add this).\n2. Keeping app fragment fixed across Activity Restarts(Technical terms phew! for better UX).\n3. A location based attendance marking(Fingers crossed).\n4. If you are a developer I would love to collaborate. As you might have observed I badly need a designer xD."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,9 +98,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
-            android:text="I am a tireless seeker of knowledge and a regular dealer of gyan. I love solving real world problems, creative solutions is where my heart lies. When i am not coding or studying you'll find me in the pool or on the basketball court."
+            android:text="I am a tireless seeker of knowledge and a regular dealer of &quot;gyan&quot;. I love solving real world problems, creative solutions is where my heart lies. When I am not coding or studying you'll find me in the pool or on the basketball court."
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
@@ -129,7 +113,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:text="Me"
+            android:text="About Me"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

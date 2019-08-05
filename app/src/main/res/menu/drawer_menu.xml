@@ -9,6 +9,9 @@
         <item android:id="@+id/nav_addSub"
             android:icon="@drawable/ic_add_circle_outline_black_24dp"
             android:title="Add Subject"/>
+        <item android:id="@+id/nav_logbook"
+            android:icon="@drawable/ic_library_books_black_24dp"
+            android:title="Log Book"/>
         <item android:id="@+id/nav_about"
             android:icon="@drawable/ic_info_black_24dp"
             android:title="About"/>

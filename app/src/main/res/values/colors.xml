@@ -5,4 +5,6 @@
     <color name="colorAccent">#68c5db</color>
     <color name="colorPrimaryLight">#ffffff</color>
     <color name="colorButtons">#ffa500</color>
+    <color name="Piepresent">#00bfff</color>
+    <color name="Pieabsent">#D3D3D3</color>
 </resources>

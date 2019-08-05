@@ -26,7 +26,8 @@ public class ListFrag extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     View view;
     ArrayList<Subject> subjects;
-    Integer elegible=1;
+    ArrayList<com.kinshuu.silverbook.Log> LogList;
+    Integer elegible=1,size=0;
 
     public ListFrag() {
         // Required empty public constructor
@@ -47,7 +48,6 @@ public class ListFrag extends Fragment {
         Log.d(TAG, "onActivityCreated: ");
         recyclerview =view.findViewById(R.id.list);
         recyclerview.setHasFixedSize(true);
-        //recyclerview.setPadding(5,1,5,1);
         layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerview.setLayoutManager(layoutManager);
         if(subjects==null) {
@@ -55,7 +55,7 @@ public class ListFrag extends Fragment {
             Log.d(TAG, "onActivityCreated: Subjects is null");
             subjects.add(new Subject("New Subject"));
         }
-        myadapter = new SubjectAdapter(this.getActivity(), subjects, elegible);
+        myadapter = new SubjectAdapter(this.getActivity(), subjects, elegible, LogList,size );
         recyclerview.setAdapter(myadapter);
     }
 
@@ -63,6 +63,8 @@ public class ListFrag extends Fragment {
     public void getArgs(Bundle args){
         subjects=args.getParcelableArrayList("arraylist");
         elegible=args.getInt("elegible");
+        LogList=args.getParcelableArrayList("loglist");
+        size=args.getInt("size");
         Log.d(TAG, "getArgs: List recieved");
     }
 
