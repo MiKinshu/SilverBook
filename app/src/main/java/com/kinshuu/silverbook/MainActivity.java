@@ -316,8 +316,12 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
-                    ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
-                    ETuserscore4.setText(subjectsmain.get(i).getMarks()[3]+"");
+                    //ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
+                    //ETuserscore4.setText(subjectsmain.get(i).getMarks()[3]+"");
+                    ETuserscore3.setVisibility(View.GONE);
+                    ETuserscore4.setVisibility(View.GONE);
+                    ETuserscore5.setVisibility(View.GONE);
+                    Log.d(TAG, "UpdateViewVisibility: Updated visibility");
                     break;
                 }
                 case 3:{
@@ -366,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     break;
                 }
                 case 5:{
+                    Log.d(TAG, "UpdateViewVisibility: in case 5");
                     TextView TVtestname1=findViewById(R.id.TVtestname1);
                     TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0)+"");
                     TextView TVmaxscore1=findViewById(R.id.TVmaxscore1);
@@ -394,6 +399,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 }
             }
         }
+        Log.d(TAG, "UpdateViewVisibility: exitting function");
     }
 
     //This Function is used to set up subjects for an eligible user when he signs in for the 1st time.
@@ -1058,7 +1064,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             case R.id.nav_share:{
                 Intent shareapp=new Intent(Intent.ACTION_SEND);
                 shareapp.setType("text/plain");
-                String s="Hey checkout this cool SilverBook app. It has a lot of awesome features like GPA forecast, attendance forecast, attendance tracking etc. This app is my daily driver :)";
+                String s="Hey checkout this cool SilverBook app. It has a lot of awesome features like GPA forecast, attendance forecast, attendance tracking etc. This app is my daily driver :). Check it out here https://github.com/MiKinshu/SilverBook/raw/master/SilverBook.apk ";
                 shareapp.putExtra(Intent.EXTRA_TEXT,s);
                 startActivity(Intent.createChooser(shareapp,"Share App"));
                 break;

@@ -7,7 +7,7 @@
            "MaxScores" : [30,45],
            "NoOfTests" : 2,
            "ScoreToConsider" : [ 1,1,-1,-1,-1 ],
-           "Sub_name" : "PAS",
+           "Sub_name" : "AC",
            "TestNames" : [ "C1" ,"Quiz-1"],
            "TopperScore" : [ 28,35 ]
         	},
@@ -235,7 +235,7 @@
           	  "MaxScores" : [30,45],
           	  "NoOfTests" : 2,
           	  "ScoreToConsider" : [ 1,1,-1,-1,-1 ],
-          	  "Sub_name" : "PAS",
+          	  "Sub_name" : "LAL",
           	  "TestNames" : [ "C1" ,"Quiz-1"],
           	  "TopperScore" : [ 28,35 ]
         	},
@@ -291,7 +291,7 @@
           	  "MaxScores" : [30,45],
           	  "NoOfTests" : 2,
           	  "ScoreToConsider" : [ 1,1,-1,-1,-1 ],
-          	  "Sub_name" : "PAS",
+          	  "Sub_name" : "LAL",
           	  "TestNames" : [ "C1" ,"Quiz-1"],
           	  "TopperScore" : [ 28,35 ]
         	},
@@ -347,7 +347,7 @@
           	  "MaxScores" : [30,45],
           	  "NoOfTests" : 2,
           	  "ScoreToConsider" : [ 1,1,-1,-1,-1 ],
-          	  "Sub_name" : "PAS",
+          	  "Sub_name" : "LAL",
           	  "TestNames" : [ "C1" ,"Quiz-1"],
           	  "TopperScore" : [ 28,35 ]
         	},
