@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 
 public class Subject implements Parcelable {
-    private int totaldays,present;
-    private int[] marks;
+    private float totaldays,present;
+    private float[] marks;
     private String sub_name;
     private String forcast;
     double GPA=0,AttendancePercent=0;
@@ -17,14 +17,14 @@ public class Subject implements Parcelable {
         this.sub_name = sub_name;
         this.present=0;
         this.totaldays=0;
-        marks=new int[]{0,0,0,0,0};
+        marks=new float[]{0,0,0,0,0};
     }
 
-    public int[] getMarks() {
+    public float[] getMarks() {
         return marks;
     }
 
-    public void setMarks(int[] marks) {
+    public void setMarks(float[] marks) {
         this.marks = marks;
     }
 
@@ -39,7 +39,7 @@ public class Subject implements Parcelable {
 
     public String getForcast() {
         String header;
-        int temp=0;
+        float temp=0;
         if(getAttendancePercent()<75.0){
             if(totaldays==0) {
                 temp = 1;
@@ -67,19 +67,19 @@ public class Subject implements Parcelable {
         return header;
     }
 
-    public int getTotaldays() {
+    public float getTotaldays() {
         return totaldays;
     }
 
-    public void setTotaldays(int totaldays) {
+    public void setTotaldays(float totaldays) {
         this.totaldays = totaldays;
     }
 
-    public int getPresent() {
+    public float getPresent() {
         return present;
     }
 
-    public void setPresent(int present) {
+    public void setPresent(float present) {
         this.present = present;
     }
 
@@ -119,11 +119,11 @@ public class Subject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(sub_name);
-        dest.writeInt(totaldays);
-        dest.writeInt(present);
+        dest.writeFloat(totaldays);
+        dest.writeFloat(present);
         dest.writeDouble(GPA);
         dest.writeDouble(AttendancePercent);
-        dest.writeIntArray(marks);
+        dest.writeFloatArray(marks);
         dest.writeString(forcast);
     }
 
@@ -133,7 +133,7 @@ public class Subject implements Parcelable {
         this.present=source.readInt();
         this.GPA=source.readDouble();
         this.AttendancePercent=source.readDouble();
-        this.marks=source.createIntArray();
+        this.marks=source.createFloatArray();
         this.forcast=source.readString();
     }
 

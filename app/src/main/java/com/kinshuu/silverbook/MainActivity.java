@@ -251,14 +251,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         EditText ETuserscore2=findViewById(R.id.ETuserscore2);
         EditText ETuserscore3=findViewById(R.id.ETuserscore3);
         EditText ETuserscore4=findViewById(R.id.ETuserscore4);
-        EditText ETuserscore5=findViewById(R.id.ETuserscore5);
+        TextView TVtestname4=findViewById(R.id.TVtestname4);
+        TextView TVmaxscore4=findViewById(R.id.TVmaxscore4);
 
 
         if(Eligible==0){
             group1.setVisibility(View.GONE);
             group2.setVisibility(View.GONE);
             group3.setVisibility(View.GONE);
-            group4.setVisibility(View.GONE);
+            group4.setVisibility(View.INVISIBLE);
             group5.setVisibility(View.GONE);
             groupGPI.setVisibility(View.GONE);
             TVGPAhead.setText("At the moment, GPA forecast is only available for IIIT-A batch 2k18 or later.");
@@ -303,9 +304,10 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     break;
                 }
                 case 2:{
-                    group3.setVisibility(View.GONE);
-                    group4.setVisibility(View.GONE);
-                    group5.setVisibility(View.GONE);
+                    group3.setVisibility(View.INVISIBLE);
+                    group3.requestLayout();
+                    group4.setVisibility(View.INVISIBLE);
+                    group5.setVisibility(View.INVISIBLE);
                     TextView TVtestname1=findViewById(R.id.TVtestname1);
                     TVtestname1.setText(subjectSyncArrayList.get(i).getTestNames().get(0)+"");
                     TextView TVmaxscore1=findViewById(R.id.TVmaxscore1);
@@ -316,11 +318,11 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     TVmaxscore2.setText(subjectSyncArrayList.get(i).getMaxScores().get(1)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
-                    //ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
-                    //ETuserscore4.setText(subjectsmain.get(i).getMarks()[3]+"");
                     ETuserscore3.setVisibility(View.GONE);
                     ETuserscore4.setVisibility(View.GONE);
-                    ETuserscore5.setVisibility(View.GONE);
+                    TVtestname4.setVisibility(View.GONE);
+                    TVmaxscore4.setVisibility(View.GONE);
+
                     Log.d(TAG, "UpdateViewVisibility: Updated visibility");
                     break;
                 }
@@ -359,9 +361,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2)+"");
                     TextView TVmaxscore3=findViewById(R.id.TVmaxscore3);
                     TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2)+"");
-                    TextView TVtestname4=findViewById(R.id.TVtestname4);
                     TVtestname4.setText(subjectSyncArrayList.get(i).getTestNames().get(3)+"");
-                    TextView TVmaxscore4=findViewById(R.id.TVmaxscore4);
                     TVmaxscore4.setText(subjectSyncArrayList.get(i).getMaxScores().get(3)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
@@ -383,14 +383,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     TVtestname3.setText(subjectSyncArrayList.get(i).getTestNames().get(2)+"");
                     TextView TVmaxscore3=findViewById(R.id.TVmaxscore3);
                     TVmaxscore3.setText(subjectSyncArrayList.get(i).getMaxScores().get(2)+"");
-                    TextView TVtestname4=findViewById(R.id.TVtestname4);
                     TVtestname4.setText(subjectSyncArrayList.get(i).getTestNames().get(3)+"");
-                    TextView TVmaxscore4=findViewById(R.id.TVmaxscore4);
                     TVmaxscore4.setText(subjectSyncArrayList.get(i).getMaxScores().get(3)+"");
-                    TextView TVtestname5=findViewById(R.id.TVtestname5);
-                    TVtestname5.setText(subjectSyncArrayList.get(i).getTestNames().get(4)+"");
-                    TextView TVmaxscore5=findViewById(R.id.TVmaxscore5);
-                    TVmaxscore5.setText(subjectSyncArrayList.get(i).getMaxScores().get(4)+"");
                     ETuserscore1.setText(subjectsmain.get(i).getMarks()[0]+"");
                     ETuserscore2.setText(subjectsmain.get(i).getMarks()[1]+"");
                     ETuserscore3.setText(subjectsmain.get(i).getMarks()[2]+"");
@@ -495,21 +489,20 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     //This function does GPA calculation and flashes the result on screen
     public void calculateGPA(Integer i){
         Double sum=0.0,Tsum=0.0;
-        ArrayList<Integer> numArrayList= new ArrayList<>();
+        ArrayList<Float> numArrayList= new ArrayList<>();
         EditText ETuserscore1=findViewById(R.id.ETuserscore1);
         EditText ETuserscore2=findViewById(R.id.ETuserscore2);
         EditText ETuserscore3=findViewById(R.id.ETuserscore3);
         EditText ETuserscore4=findViewById(R.id.ETuserscore4);
-        EditText ETuserscore5=findViewById(R.id.ETuserscore5);
         if(i<subjectSyncArrayList.size()) {
             switch (subjectSyncArrayList.get(i).getNoOfTests()) {
                 case 1: {
                     if (ETuserscore1.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0)) {
+                            Float.parseFloat(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0)) {
                         Toast.makeText(this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
                     } else {
-                        subjectsmain.get(i).getMarks()[0] = Integer.parseInt(ETuserscore1.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore1.getText().toString()));
+                        subjectsmain.get(i).getMarks()[0] = Float.parseFloat(ETuserscore1.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore1.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
                             if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
@@ -529,15 +522,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 }
                 case 2: {
                     if (ETuserscore1.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
+                            Float.parseFloat(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
                             ETuserscore2.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1))
+                            Float.parseFloat(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1))
                         Toast.makeText(this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
                     else {
-                        subjectsmain.get(i).getMarks()[0] = Integer.parseInt(ETuserscore1.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore1.getText().toString()));
-                        subjectsmain.get(i).getMarks()[1] = Integer.parseInt(ETuserscore2.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore2.getText().toString()));
+                        subjectsmain.get(i).getMarks()[0] = Float.parseFloat(ETuserscore1.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore1.getText().toString()));
+                        subjectsmain.get(i).getMarks()[1] = Float.parseFloat(ETuserscore2.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore2.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
                             if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
@@ -557,19 +550,19 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 }
                 case 3: {
                     if (ETuserscore1.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
+                            Float.parseFloat(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
                             ETuserscore2.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1) ||
+                            Float.parseFloat(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1) ||
                             ETuserscore3.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore3.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(2))
+                            Float.parseFloat(ETuserscore3.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(2))
                         Toast.makeText(this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
                     else {
-                        subjectsmain.get(i).getMarks()[0] = Integer.parseInt(ETuserscore1.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore1.getText().toString()));
-                        subjectsmain.get(i).getMarks()[1] = Integer.parseInt(ETuserscore2.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore2.getText().toString()));
-                        subjectsmain.get(i).getMarks()[2] = Integer.parseInt(ETuserscore3.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore3.getText().toString()));
+                        subjectsmain.get(i).getMarks()[0] = Float.parseFloat(ETuserscore1.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore1.getText().toString()));
+                        subjectsmain.get(i).getMarks()[1] = Float.parseFloat(ETuserscore2.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore2.getText().toString()));
+                        subjectsmain.get(i).getMarks()[2] = Float.parseFloat(ETuserscore3.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore3.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
                             if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
@@ -589,23 +582,23 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 }
                 case 4: {
                     if (ETuserscore1.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
+                            Float.parseFloat(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
                             ETuserscore2.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1) ||
+                            Float.parseFloat(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1) ||
                             ETuserscore3.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore3.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(2) ||
+                            Float.parseFloat(ETuserscore3.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(2) ||
                             ETuserscore4.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore4.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(3))
+                            Float.parseFloat(ETuserscore4.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(3))
                         Toast.makeText(this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
                     else {
-                        subjectsmain.get(i).getMarks()[0] = Integer.parseInt(ETuserscore1.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore1.getText().toString()));
-                        subjectsmain.get(i).getMarks()[1] = Integer.parseInt(ETuserscore2.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore2.getText().toString()));
-                        subjectsmain.get(i).getMarks()[2] = Integer.parseInt(ETuserscore3.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore3.getText().toString()));
-                        subjectsmain.get(i).getMarks()[3] = Integer.parseInt(ETuserscore4.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore4.getText().toString()));
+                        subjectsmain.get(i).getMarks()[0] = Float.parseFloat(ETuserscore1.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore1.getText().toString()));
+                        subjectsmain.get(i).getMarks()[1] = Float.parseFloat(ETuserscore2.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore2.getText().toString()));
+                        subjectsmain.get(i).getMarks()[2] = Float.parseFloat(ETuserscore3.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore3.getText().toString()));
+                        subjectsmain.get(i).getMarks()[3] = Float.parseFloat(ETuserscore4.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore4.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
                             if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
@@ -625,27 +618,23 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 }
                 case 5: {
                     if (ETuserscore1.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
+                            Float.parseFloat(ETuserscore1.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(0) ||
                             ETuserscore2.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1) ||
+                            Float.parseFloat(ETuserscore2.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(1) ||
                             ETuserscore3.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore3.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(2) ||
+                            Float.parseFloat(ETuserscore3.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(2) ||
                             ETuserscore4.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore4.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(3) ||
-                            ETuserscore5.getText().toString().equals("") ||
-                            Integer.parseInt(ETuserscore5.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(4))
+                            Float.parseFloat(ETuserscore4.getText().toString()) > subjectSyncArrayList.get(i).getMaxScores().get(3))
                         Toast.makeText(this, "Please enter valid numbers.", Toast.LENGTH_SHORT).show();
                     else {
-                        subjectsmain.get(i).getMarks()[0] = Integer.parseInt(ETuserscore1.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore1.getText().toString()));
-                        subjectsmain.get(i).getMarks()[1] = Integer.parseInt(ETuserscore2.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore2.getText().toString()));
-                        subjectsmain.get(i).getMarks()[2] = Integer.parseInt(ETuserscore3.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore3.getText().toString()));
-                        subjectsmain.get(i).getMarks()[3] = Integer.parseInt(ETuserscore4.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore4.getText().toString()));
-                        subjectsmain.get(i).getMarks()[4] = Integer.parseInt(ETuserscore5.getText().toString());
-                        numArrayList.add(Integer.parseInt(ETuserscore5.getText().toString()));
+                        subjectsmain.get(i).getMarks()[0] = Float.parseFloat(ETuserscore1.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore1.getText().toString()));
+                        subjectsmain.get(i).getMarks()[1] = Float.parseFloat(ETuserscore2.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore2.getText().toString()));
+                        subjectsmain.get(i).getMarks()[2] = Float.parseFloat(ETuserscore3.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore3.getText().toString()));
+                        subjectsmain.get(i).getMarks()[3] = Float.parseFloat(ETuserscore4.getText().toString());
+                        numArrayList.add(Float.parseFloat(ETuserscore4.getText().toString()));
                         for (int j = 0; j < subjectSyncArrayList.get(i).getNoOfTests(); j++) {
                             if (subjectSyncArrayList.get(i).getScoreToConsider().get(j) != -1) {
                                 sum += numArrayList.get(j);
@@ -1002,12 +991,12 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     @Override
                     public void onClick(View v) {
                         if(ETaddsubname.getText().toString().equals("")||
-                                Integer.parseInt(ETaddsubtotalclass.getText().toString())<Integer.parseInt(ETaddsubpresent.getText().toString()))
+                                Float.parseFloat(ETaddsubtotalclass.getText().toString())<Float.parseFloat(ETaddsubpresent.getText().toString()))
                             Toast.makeText(MainActivity.this, "Enter Valid numbers :)", Toast.LENGTH_SHORT).show();
                         else {
                             Subject subject= new Subject(ETaddsubname.getText().toString());
-                            subject.setPresent(Integer.parseInt(ETaddsubpresent.getText().toString()));
-                            subject.setTotaldays(Integer.parseInt(ETaddsubtotalclass.getText().toString()));
+                            subject.setPresent((int) Float.parseFloat(ETaddsubpresent.getText().toString()));
+                            subject.setTotaldays((int) Float.parseFloat(ETaddsubtotalclass.getText().toString()));
                             subject.calculatepercent();
                             subjectsmain.add(subject);
                             listFrag.myadapter.notifyDataSetChanged();
