@@ -172,9 +172,13 @@
           "TopperScore" : [ 23 ]
         },
         "SUBJECT-2" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "FEE"
+          "ExamName" : "Enter C1 score (rounded off to nearest int)",
+          "MaxScores" : [ 30 ],
+          "NoOfTests" : 1,
+          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
+          "Sub_name" : "FEE",
+          "TestNames" : [ "C1" ],
+          "TopperScore" : [ 29 ]
         },
         "SUBJECT-3" : {
           "ExamName" : "Enter C1 score (rounded off to nearest int)",
@@ -204,9 +208,13 @@
           "TopperScore" : [ 27 ]
         },
         "SUBJECT-6" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "ITP"
+          "ExamName" : "Enter C1 score (rounded off to nearest int)",
+          "MaxScores" : [ 30 ],
+          "NoOfTests" : 1,
+          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITP",
+          "TestNames" : [ "C1" ],
+          "TopperScore" : [ 28 ]
         }
       },
       "IT" : {
@@ -220,9 +228,13 @@
           "TopperScore" : [ 23 ]
         },
         "SUBJECT-2" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "FEE"
+          "ExamName" : "Enter C1 score (rounded off to nearest int)",
+          "MaxScores" : [ 30 ],
+          "NoOfTests" : 1,
+          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
+          "Sub_name" : "FEE",
+          "TestNames" : [ "C1" ],
+          "TopperScore" : [ 29 ]
         },
         "SUBJECT-3" : {
           "ExamName" : "Enter C1 score (rounded off to nearest int)",
@@ -252,9 +264,13 @@
           "TopperScore" : [ 27 ]
         },
         "SUBJECT-6" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "ITP"
+          "ExamName" : "Enter C1 score (rounded off to nearest int)",
+          "MaxScores" : [ 30 ],
+          "NoOfTests" : 1,
+          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITP",
+          "TestNames" : [ "C1" ],
+          "TopperScore" : [ 28 ]
         }
       },
       "ITBI" : {
@@ -268,9 +284,13 @@
           "TopperScore" : [ 23 ]
         },
         "SUBJECT-2" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "FEE"
+          "ExamName" : "Enter C1 score (rounded off to nearest int)",
+          "MaxScores" : [ 30 ],
+          "NoOfTests" : 1,
+          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
+          "Sub_name" : "FEE",
+          "TestNames" : [ "C1" ],
+          "TopperScore" : [ 29 ]
         },
         "SUBJECT-3" : {
           "ExamName" : "Enter C1 score (rounded off to nearest int)",
@@ -300,9 +320,13 @@
           "TopperScore" : [ 27 ]
         },
         "SUBJECT-6" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "ITP"
+          "ExamName" : "Enter C1 score (rounded off to nearest int)",
+          "MaxScores" : [ 30 ],
+          "NoOfTests" : 1,
+          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITP",
+          "TestNames" : [ "C1" ],
+          "TopperScore" : [ 28 ]
         }
       }
     }
