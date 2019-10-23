@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 
 public class Subject implements Parcelable {
-    private float totaldays,present;
+    private int totaldays,present;
     private float[] marks;
     private String sub_name;
     private String forcast;
@@ -39,7 +39,7 @@ public class Subject implements Parcelable {
 
     public String getForcast() {
         String header;
-        float temp=0;
+        int temp=0;
         if(getAttendancePercent()<75.0){
             if(totaldays==0) {
                 temp = 1;
@@ -67,19 +67,19 @@ public class Subject implements Parcelable {
         return header;
     }
 
-    public float getTotaldays() {
+    public int getTotaldays() {
         return totaldays;
     }
 
-    public void setTotaldays(float totaldays) {
+    public void setTotaldays(int totaldays) {
         this.totaldays = totaldays;
     }
 
-    public float getPresent() {
+    public int getPresent() {
         return present;
     }
 
-    public void setPresent(float present) {
+    public void setPresent(int present) {
         this.present = present;
     }
 
@@ -119,8 +119,8 @@ public class Subject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(sub_name);
-        dest.writeFloat(totaldays);
-        dest.writeFloat(present);
+        dest.writeInt(totaldays);
+        dest.writeInt(present);
         dest.writeDouble(GPA);
         dest.writeDouble(AttendancePercent);
         dest.writeFloatArray(marks);

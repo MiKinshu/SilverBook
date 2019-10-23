@@ -424,7 +424,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         ArrayList<Integer> colors= new ArrayList<>();
         colors.add(ContextCompat.getColor(getApplicationContext(), R.color.Pieabsent));
         colors.add(ContextCompat.getColor(getApplicationContext(), R.color.Piepresent));
-        yenteries.add(new PieEntry((subjectsmain.get(index).getTotaldays())-subjectsmain.get(index).getPresent(),"Absent"));
+        int absent=(subjectsmain.get(index).getTotaldays())-subjectsmain.get(index).getPresent();
+        yenteries.add(new PieEntry(absent,"Absent"));
         yenteries.add(new PieEntry(subjectsmain.get(index).getPresent(),"Present"));
 
         for(int i=0;i<2;i++){
@@ -457,8 +458,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     //This is an interface method, it receives info from the popup and sets it accordingly.
     @Override
     public void applytexts(Integer classesattended, Integer totalclasses) {
-        subjectsmain.get(indexmain).setPresent(classesattended);
-        subjectsmain.get(indexmain).setTotaldays(totalclasses);
+        subjectsmain.get(indexmain).setPresent((int)classesattended);
+        subjectsmain.get(indexmain).setTotaldays((int)totalclasses);
         subjectsmain.get(indexmain).calculatepercent();
         UpdateDetailFrag(indexmain);//Update Detail Fragment.
         listFrag.myadapter.notifyDataSetChanged();//Update List Fragment.
