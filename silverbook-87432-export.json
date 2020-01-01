@@ -1,332 +1,221 @@
 {
   "IIIT-A" : {
-    "2017" : {
-      "ECE" : {
-        "SUBJECT-1" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "EDCN"
-        },
-        "SUBJECT-2" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "ECSY"
-        },
-        "SUBJECT-3" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "ECNW"
-        },
-        "SUBJECT-4" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "EAWP"
-        },
-        "SUBJECT-5" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "MMEF"
-        },
-        "SUBJECT-6" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "EPOP"
-        }
-      },
-      "IT" : {
-        "SUBJECT-1" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "CNE"
-        },
-        "SUBJECT-2" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "SOE"
-        },
-        "SUBJECT-3" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "AIN"
-        },
-        "SUBJECT-4" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "GVC"
-        },
-        "SUBJECT-5" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "POE"
-        },
-        "SUBJECT-6" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "PRO"
-        }
-      }
-    },
     "2018" : {
-      "ECE" : {
-        "SUBJECT-1" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "AC"
-        },
-        "SUBJECT-2" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "AE"
-        },
-        "SUBJECT-3" : {
-          "ExamName" : "Enter marks for C-1",
-          "NoOfTests" : 0,
-          "Sub_name" : "EE"
-        },
-        "SUBJECT-4" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "EMI"
-        },
-        "SUBJECT-5" : {
-          "ExamName" : "",
-          "NoOfTests" : 0,
-          "Sub_name" : "MPIP"
-        },
-        "SUBJECT-6" : {
-          "ExamName" : "Enter C1 marks (as uploaded on Aviral)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PAS",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 29 ]
-        }
-      },
       "IT" : {
         "SUBJECT-1" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PAS",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 29 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "DAA",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-2" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "TOC",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 26.25 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "PPL",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-3" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "OOM",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 26 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "CN",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-4" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "OS",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 23 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "SE",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-5" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITF",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 29 ]
-        },
-        "SUBJECT-6" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITM",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 26 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "DBMS",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         }
       }
     },
     "2019" : {
       "ECE" : {
         "SUBJECT-1" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "LAL",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 23 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "DM",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-2" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "FEE",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 29 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "UMC",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-3" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PFC",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 30 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "COA",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-4" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PHY",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 28 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "OS",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-5" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "POM",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 27 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITF",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-6" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITP",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 28 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITM",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         }
       },
       "IT" : {
         "SUBJECT-1" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "LAL",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 23 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "DM",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-2" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "FEE",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 29 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "UMC",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-3" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PFC",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 30 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "COA",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-4" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PHY",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 28 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "OS",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-5" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "POM",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 27 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITF",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-6" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITP",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 28 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITM",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         }
       },
       "ITBI" : {
         "SUBJECT-1" : {
-          "ExamName" : "Enter C1 marks (Rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "LAL",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 23 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "DM",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-2" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "FEE",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 29 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "UMC",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-3" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PFC",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 30 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "COA",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-4" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "PHY",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 28 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "OS",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-5" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "POM",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 27 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITF",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         },
         "SUBJECT-6" : {
-          "ExamName" : "Enter C1 score (rounded off to nearest int)",
-          "MaxScores" : [ 30 ],
-          "NoOfTests" : 1,
-          "ScoreToConsider" : [ 1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITP",
-          "TestNames" : [ "C1" ],
-          "TopperScore" : [ 28 ]
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "ITM",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
         }
       }
     }

@@ -18,7 +18,6 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
     String Branch="null";
     Integer Batch=0;
     Button BTNcontinue;
-
     String TAG="MyLOGS";
 
     @Override
@@ -31,7 +30,7 @@ public class UserOrientation extends AppCompatActivity implements AdapterView.On
         Spinner spinnerBranch=findViewById(R.id.spinnerBranch);
         BTNcontinue=findViewById(R.id.BTNcontinue);
 
-        String[] spinnerBatchlist={"Select","2017","2018","2019","Others"};
+        String[] spinnerBatchlist={"Select","2018","2019","Others"};
         ArrayAdapter<String> spinnerBatchAdapter= new ArrayAdapter<>(UserOrientation.this, android.R.layout.simple_list_item_1,spinnerBatchlist);
         spinnerBatchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBatch.setAdapter(spinnerBatchAdapter);
