@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     //two major fragments to be used.
     ListFrag listFrag;
     DetailFrag detailFrag;
+    BlankFragment blankFrag;
 
     //for navigation drawer
     Toolbar toolbar;
@@ -120,6 +121,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         toggle.syncState();
         listFrag=new ListFrag();
         detailFrag = new DetailFrag();
+        blankFrag=new BlankFragment();
+
         if(findViewById(R.id.layout_portrait)==null) {
                 getSupportFragmentManager().beginTransaction().add(R.id.list_frag_cont, listFrag, "listfrag").commit();
                 getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
@@ -174,13 +177,13 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
 
         if(findViewById(R.id.layout_portrait)==null) {
             if (subjectsmain.size() == 0) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, new BlankFragment()).commit();
-                getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new BlankFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, blankFrag,"blankfrag").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new BlankFragment(),"blankfragdetail").commit();
             }
         }
         else {
             if (subjectsmain.size() == 0) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, new BlankFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, blankFrag,"blankfrag").commit();
             }
         }
 
@@ -914,6 +917,11 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     public void onBackPressed() {
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("blankfrag"))==getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait))
+            finish();
+        else if(findViewById(R.id.layout_portrait)==null&&(getSupportFragmentManager().findFragmentByTag("blankfrag"))==getSupportFragmentManager().findFragmentById(R.id.list_frag_cont)){
+            finish();
         }
         else if(findViewById(R.id.layout_portrait)!=null&&(getSupportFragmentManager().findFragmentByTag("listfrag"))!=getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)){
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
