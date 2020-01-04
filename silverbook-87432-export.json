@@ -56,7 +56,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "DM",
+          "Sub_name" : "DSD",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -74,7 +74,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "COA",
+          "Sub_name" : "EMFW",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -83,7 +83,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "OS",
+          "Sub_name" : "DS",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -92,7 +92,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITF",
+          "Sub_name" : "EDC",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -101,7 +101,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITM",
+          "Sub_name" : "EWS",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         }
@@ -139,7 +139,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "OS",
+          "Sub_name" : "DS",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -148,7 +148,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITF",
+          "Sub_name" : "PCE",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -157,7 +157,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITM",
+          "Sub_name" : "POE",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         }
@@ -195,7 +195,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "OS",
+          "Sub_name" : "DS",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -204,7 +204,7 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITF",
+          "Sub_name" : "PCE",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         },
@@ -213,7 +213,16 @@
           "MaxScores" : [ ],
           "NoOfTests" : 0,
           "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
-          "Sub_name" : "ITM",
+          "Sub_name" : "POE",
+          "TestNames" : [  ],
+          "TopperScore" : [  ]
+        },
+        "SUBJECT-7" : {
+          "ExamName" : "",
+          "MaxScores" : [ ],
+          "NoOfTests" : 0,
+          "ScoreToConsider" : [ -1, -1, -1, -1, -1 ],
+          "Sub_name" : "BPM",
           "TestNames" : [  ],
           "TopperScore" : [  ]
         }
