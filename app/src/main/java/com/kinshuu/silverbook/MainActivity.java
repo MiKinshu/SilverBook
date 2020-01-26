@@ -206,6 +206,24 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 if(user!=null){
                     //user is signed in.
                     //Toast.makeText(MainActivity.this, "Welcome to the App you Son of a Gun", Toast.LENGTH_SHORT).show();
+                    if(firsttime == 1)
+                    {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+                        alertDialogBuilder.setMessage("Tap on a subject to view details");
+                        alertDialogBuilder.setTitle("Instruction");
+                        alertDialogBuilder.setPositiveButton("Understood!",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface arg0, int arg1) {
+                                        //Toast.makeText(MainActivity.this,"You clicked Understood button",
+                                        //      Toast.LENGTH_LONG).show();
+                                    }
+                                });
+
+
+                        AlertDialog alertDialog = alertDialogBuilder.create();
+                        alertDialog.show();
+                    }
                     Log.d(TAG, "onAuthStateChanged: User is signed in");
                     OnSignedInInitialise(user.getDisplayName());
                 }
