@@ -24,8 +24,10 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -1090,13 +1092,18 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new LogFrag()).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 }
-                final TextView TVlog= findViewById(R.id.TVlog);
-                String Log="";
-                for(int i=LogArrayList.size()-1;i>-1;i--){
-                    Log=Log+LogArrayList.get(i).getAction()+LogArrayList.get(i).getTime()+"\n\n";
+                final ListView TVlog= findViewById(R.id.TVlog);
+                //String Log="";
+                final ArrayList<String> logList = new ArrayList<>();
+                for(int i=0;i<LogArrayList.size();i++){
+                    logList.add(i,LogArrayList.get(i).getAction()+LogArrayList.get(i).getTime());
                 }
-                TVlog.setText(Log);
-                TVlog.setMovementMethod(new ScrollingMovementMethod());
+                 final ArrayAdapter<String> itemsAdapter =
+                        new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, logList);
+                TVlog.setAdapter(itemsAdapter);
+
+                //TVlog.setText(Log);
+                //TVlog.setMovementMethod(new ScrollingMovementMethod());
                 Button BTNresetlog= findViewById(R.id.BTNresetlog);
                 BTNresetlog.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -1108,7 +1115,9 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                                     public void onClick(DialogInterface dialog, int which) {
                                         // Continue with delete operation
                                         LogArrayList.clear();
-                                        TVlog.setText("");
+                                        logList.clear();
+                                        TVlog.setAdapter(itemsAdapter);
+                                        //TVlog.setText("");
                                         Toast.makeText(MainActivity.this, "Log Cleared!", Toast.LENGTH_SHORT).show();
                                     }
                                 })

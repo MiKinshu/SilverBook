@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <ListView
         android:id="@+id/TVlog"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -30,9 +30,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:dividerHeight="2dp"
         android:scrollbars="vertical"
-        android:text="TextView"
-        android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/BTNresetlog"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
