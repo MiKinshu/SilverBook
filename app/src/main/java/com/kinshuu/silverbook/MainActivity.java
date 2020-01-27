@@ -998,9 +998,15 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 final EditText ETaddsubpresent=findViewById(R.id.ETaddsubpresent);
                 final EditText ETaddsubtotalclass= findViewById(R.id.ETaddsubtotalclass);
                 final EditText ETaddsubname=findViewById(R.id.ETaddsubname);
+
                 BTNaddsub.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        if(ETaddsubpresent.getText().toString().equals(""))
+                            ETaddsubpresent.setText("0");
+                        if(ETaddsubtotalclass.getText().toString().equals(""))
+                            ETaddsubtotalclass.setText("0");
                         if(ETaddsubname.getText().toString().equals("")||
                                 Float.parseFloat(ETaddsubtotalclass.getText().toString())<Float.parseFloat(ETaddsubpresent.getText().toString()))
                             Toast.makeText(MainActivity.this, "Enter Valid numbers :)", Toast.LENGTH_SHORT).show();
