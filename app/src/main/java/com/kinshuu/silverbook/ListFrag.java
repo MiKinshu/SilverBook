@@ -38,6 +38,7 @@ public class ListFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         Log.d(TAG, "onCreateView: Fragment created");
+        getActivity().setTitle("SilverBook");
         view= inflater.inflate(R.layout.fragment_list, container, false);
         return view;
     }
