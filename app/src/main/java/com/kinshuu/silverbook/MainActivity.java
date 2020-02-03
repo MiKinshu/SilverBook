@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -98,6 +99,27 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     NavigationView navigationView;
 
     @Override
+    public boolean onCreateOptionsMenu( @NonNull Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_Undo:
+                // User chose the "Settings" item, show the app settings UI...
+                return true;
+
+
+
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate: Starting OnCreate");
         super.onCreate(savedInstanceState);
@@ -119,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                     TVnavheadname.setText("Hi! "+mUsername);
             }
         };
+
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         listFrag=new ListFrag();
