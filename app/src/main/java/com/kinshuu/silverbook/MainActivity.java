@@ -1101,8 +1101,8 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                 final ListView TVlog= findViewById(R.id.TVlog);
                 //String Log="";
                 final ArrayList<String> logList = new ArrayList<>();
-                for(int i=0;i<LogArrayList.size();i++){
-                    logList.add(i,LogArrayList.get(i).getAction()+LogArrayList.get(i).getTime());
+                for(int i=LogArrayList.size()-1;i>=0;--i){
+                    logList.add(LogArrayList.get(i).getAction()+LogArrayList.get(i).getTime());
                 }
                  final ArrayAdapter<String> itemsAdapter =
                         new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, logList);
