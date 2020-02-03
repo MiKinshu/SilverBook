@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -229,6 +230,12 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             }
         };
         Log.d(TAG, "onCreate: OnCreate ends");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.overflow_menu,menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
