@@ -22,10 +22,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:text="TextView"
                     android:textSize="24sp"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/subReset"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -389,6 +388,19 @@
                     android:layout_height="wrap_content"
                     android:visibility="visible"
                     app:constraint_referenced_ids="group1,group2,group3,group4,group5,TVtestnames,BTNcalculateGPA,TVGPAforcastDF" />
+
+                <Button
+                    android:id="@+id/subReset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="RESET"
+                    android:textColor="@android:color/holo_red_dark"
+                    app:layout_constraintBottom_toTopOf="@+id/piechart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
