@@ -690,16 +690,35 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         subReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                subjectsmain.get(index).setPresent(0);
-                subjectsmain.get(index).setTotaldays(0);
-                addDataset(pieChart,subjectsmain,index);
-                String attendence = subjectsmain.get(index).getPresent()+"/"+subjectsmain.get(index).getTotaldays();
-                TVattendancefraction.setText(attendence);
-                float[] marks = {0,0,0,0,0};
-                subjectsmain.get(index).setMarks(marks);
-                subjectsmain.get(index).setGPA(0.0);
-                Toast.makeText(MainActivity.this,"Subject Resetted Sucessfully",Toast.LENGTH_SHORT).show();
-            }
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Reset Subject");
+                builder.setMessage("Are you sure you want to reset the Subject?");
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        subjectsmain.get(index).setPresent(0);
+                        subjectsmain.get(index).setTotaldays(0);
+                        addDataset(pieChart,subjectsmain,index);
+                        String attendence = subjectsmain.get(index).getPresent()+"/"+subjectsmain.get(index).getTotaldays();
+                        TVattendancefraction.setText(attendence);
+                        float[] marks = {0,0,0,0,0};
+                        subjectsmain.get(index).setMarks(marks);
+                        subjectsmain.get(index).setGPA(0.0);
+                        Toast.makeText(MainActivity.this,"Subject Resetted Sucessfully",Toast.LENGTH_SHORT).show();
+
+
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+
+                            }
         });
         BTNeditattendance=findViewById(R.id.BTNEditAttendance);
         BTNeditattendance.setOnClickListener(new View.OnClickListener() {
