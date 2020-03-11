@@ -72,6 +72,6 @@ public class ListFrag extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate: In oncreat");
+        Log.d(TAG, "onCreate: In onCreate");
     }
 }
