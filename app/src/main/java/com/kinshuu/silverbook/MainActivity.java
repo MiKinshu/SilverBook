@@ -240,16 +240,6 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt("firsttime", firsttime);
-        outState.putInt("YearOfJoining", YearOfJoining);
-        outState.putString("College", College);
-        outState.putString("Branch", Branch);
-        outState.putParcelableArrayList("subjectsmain", subjectsmain);
-        super.onSaveInstanceState(outState);
-    }
-
     //This function is used to update the visibility of views as per the constraints.
     private void UpdateViewVisibility(int i) {
         Group group1, group2, group3, group4, group5, groupGPI;
@@ -703,6 +693,11 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                         float[] marks = {0, 0, 0, 0, 0};
                         subjectsmain.get(index).setMarks(marks);
                         subjectsmain.get(index).setGPA(0.0);
+
+                        com.kinshuu.silverbook.Log log = new com.kinshuu.silverbook.Log(Calendar.getInstance().getTime().toString().split("G")[0]);
+                        log.setAction(subjectsmain.get(indexmain).getSub_name() + " Reset : Present changed to " + 0 + " and total classes changed to " + 0 + " on ");
+                        LogArrayList.add(log);
+
                         Toast.makeText(MainActivity.this, "Subject Resetted Sucessfully", Toast.LENGTH_SHORT).show();
 
 

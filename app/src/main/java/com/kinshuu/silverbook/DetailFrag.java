@@ -25,8 +25,6 @@ public class DetailFrag extends Fragment {
         // Inflate the layout for this fragment
         getActivity().setTitle("Detail");
         return inflater.inflate(R.layout.fragment_detail, container, false);
-
-
     }
 
 }
