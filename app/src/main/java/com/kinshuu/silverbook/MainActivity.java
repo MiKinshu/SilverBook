@@ -200,12 +200,12 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
 
         if (findViewById(R.id.layout_portrait) == null) {
             if (subjectsmain.size() == 0) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, blankFrag, "blankfrag").commit();
-                getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new BlankFragment(), "blankfragdetail").commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.list_frag_cont, blankFrag, "blankfrag").commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.detail_frag_cont, new BlankFragment(), "blankfragdetail").commit();
             }
             else{
-                getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, listFrag, "listfrag").commit();
-                getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.list_frag_cont, listFrag, "listfrag").commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
                 getSupportFragmentManager().executePendingTransactions();
                 listFrag = (ListFrag) getSupportFragmentManager().findFragmentByTag("listfrag");
                 detailFrag = (DetailFrag) getSupportFragmentManager().findFragmentByTag("detailfrag");
@@ -215,11 +215,11 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
         } else {
             if (subjectsmain.size() == 0) {
                 Log.d(TAG, "onResume: Now inflating blannkfrag layout");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, blankFrag, "blankfrag").commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.fragCont_portrait, blankFrag, "blankfrag").commit();
             }
             else{
                 Log.d(TAG, "onResume: Now inflating listfrag layout.");
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
+                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
                 getSupportFragmentManager().executePendingTransactions();
                 listFrag = (ListFrag) getSupportFragmentManager().findFragmentByTag("listfrag");
             }
@@ -474,12 +474,14 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
     public void setdetailfrag(final int index) {
         if (findViewById(R.id.layout_portrait) != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left);
             ft.replace(R.id.fragCont_portrait, detailFrag, "detailfrag");
             ft.commit();
             ft.addToBackStack(null);
             getSupportFragmentManager().executePendingTransactions();
         } else {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left);
             ft.replace(R.id.list_frag_cont, listFrag, "listfrag");
             ft.replace(R.id.detail_frag_cont, detailFrag, "detailfrag");
             ft.commit();
@@ -983,19 +985,20 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             finish();
         } else if (findViewById(R.id.layout_portrait) != null && (getSupportFragmentManager().findFragmentByTag("listfrag")) != getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left);
             ft.replace(R.id.fragCont_portrait, listFrag, "listfrag");
             ft.commit();
             getSupportFragmentManager().executePendingTransactions();
 
             if (findViewById(R.id.layout_portrait) == null) {
                 if (subjectsmain.size() == 0) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, blankFrag, "blankfrag").commit();
-                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new BlankFragment(), "blankfragdetail").commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.list_frag_cont, blankFrag, "blankfrag").commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.detail_frag_cont, new BlankFragment(), "blankfragdetail").commit();
                 }
             } else {
                 if (subjectsmain.size() == 0) {
                     Log.d(TAG, "onResume: Now inflating blannkfrag layout");
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, blankFrag, "blankfrag").commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.fragCont_portrait, blankFrag, "blankfrag").commit();
                 }
             }
             //setting up detail frag to 0th element if phone is in landscape mode.
@@ -1008,6 +1011,7 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             finish();
         else if (findViewById(R.id.layout_portrait) == null && (getSupportFragmentManager().findFragmentByTag("detailfrag")) != getSupportFragmentManager().findFragmentById(R.id.detail_frag_cont)) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left);
             ft.replace(R.id.detail_frag_cont, detailFrag, "detailfrag");
             ft.commit();
             getSupportFragmentManager().executePendingTransactions();
@@ -1025,10 +1029,10 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             }
             case R.id.nav_about: {
                 if (findViewById(R.id.layout_portrait) != null) {
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragCont_portrait, new AboutFrag()).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).add(R.id.fragCont_portrait, new AboutFrag()).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 } else {
-                    getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, new AboutFrag()).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).add(R.id.detail_frag_cont, new AboutFrag()).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 }
                 TextView Abouthead = findViewById(R.id.textView28);
@@ -1048,10 +1052,10 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             case R.id.nav_addSub: {
                 AddSub addSub = new AddSub();
                 if (findViewById(R.id.layout_portrait) != null) {
-                    getSupportFragmentManager().beginTransaction().add(R.id.fragCont_portrait, addSub).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).add(R.id.fragCont_portrait, addSub).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 } else {
-                    getSupportFragmentManager().beginTransaction().add(R.id.detail_frag_cont, addSub).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).add(R.id.detail_frag_cont, addSub).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 }
                 Button BTNaddsub = findViewById(R.id.BTNaddsub);
@@ -1085,11 +1089,11 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
                             listFrag.myadapter.notifyDataSetChanged();
                             Toast.makeText(MainActivity.this, "Subject Added!", Toast.LENGTH_SHORT).show();
                             if (findViewById(R.id.layout_portrait) != null) {
-                                getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
+                                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
                                 getSupportFragmentManager().executePendingTransactions();
                             } else {
-                                getSupportFragmentManager().beginTransaction().replace(R.id.list_frag_cont, listFrag, "listfrag").commit();
-                                getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
+                                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.list_frag_cont, listFrag, "listfrag").commit();
+                                getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
                                 getSupportFragmentManager().executePendingTransactions();
                             }
                             navigationView.setCheckedItem(R.id.nav_home);
@@ -1143,11 +1147,11 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             }
             case R.id.nav_deletesub: {
                 if (findViewById(R.id.layout_portrait) == null && (getSupportFragmentManager().findFragmentByTag("detailfrag")) != getSupportFragmentManager().findFragmentById(R.id.detail_frag_cont)) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.detail_frag_cont, detailFrag, "detailfrag").commit();
                     getSupportFragmentManager().executePendingTransactions();
                 } else {
                     if (findViewById(R.id.layout_portrait) != null && (getSupportFragmentManager().findFragmentByTag("listfrag")) != getSupportFragmentManager().findFragmentById(R.id.fragCont_portrait)) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
+                        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.fragCont_portrait, listFrag, "listfrag").commit();
                         getSupportFragmentManager().executePendingTransactions();
                     }
                 }
@@ -1156,10 +1160,10 @@ public class MainActivity extends AppCompatActivity implements SubjectAdapter.it
             }
             case R.id.nav_logbook: {
                 if (findViewById(R.id.layout_portrait) != null) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragCont_portrait, new LogFrag()).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.fragCont_portrait, new LogFrag()).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 } else {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.detail_frag_cont, new LogFrag()).commit();
+                    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fui_slide_in_right,R.anim.fui_slide_out_left).replace(R.id.detail_frag_cont, new LogFrag()).commit();
                     getSupportFragmentManager().executePendingTransactions();
                 }
                 final ListView TVlog = findViewById(R.id.TVlog);
