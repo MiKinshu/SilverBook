@@ -1,45 +1,45 @@
-# SilverBook
+# SilverBook: Attendance Tracker
 
-SilverBook is an everyday Android App that helps students predict their G.P.A., manage their scores and manage their attendance.
+**Effortless Attendance Management for College Students**
 
-## Why SilverBook
+**SilverBook** is your go-to **attendance tracking app** designed to simplify managing your college attendance. With features like a daily dashboard, one-tap notifications, comprehensive attendance management, and secure cloud backup, SilverBook ensures you stay organized and never miss a class.
 
-In IIIT-A and many other colleges, students get their G.P.A. only after the end term exams and there is nothing that can be done to improve them. SilverBook is an android app that enables users to predict their GPA right from the first test, so that they know where they stand at the moment and can pour in their efforts accordingly. Additionaly there is an attendance management feature that keeps a track of their attendance, and tells them the number of classes they can bunk/must attend to get their attendance on track, in real time.
+## Key Features
+
+**Daily Dashboard**  
+Quickly check your schedule and keep track of your day.  
+<img src="assets/screenshots/amazing_dashboards.png" width="120" height="auto" alt="Daily Dashboard" style="display: block; margin: auto;">
+
+**One-Tap Notifications**  
+Mark attendance and join online meetings with just one tap.  
+<img src="assets/screenshots/wow_notifications.png" width="120" height="auto" alt="One-Tap Notifications" style="display: block; margin: auto;">
+
+**Comprehensive Management**  
+Track attendance across all subjects, with detailed information about required attendance.  
+<img src="assets/screenshots/subject_details.png" width="120" height="auto" alt="Comprehensive Management" style="display: block; margin: auto;">
+
+**Secure Cloud Backup**  
+Your data is safely stored in the cloud, ensuring you never lose your records.  
+<img src="assets/screenshots/unlimited_backups.png" width="120" height="auto" alt="Secure Cloud Backup" style="display: block; margin: auto;">
+
+**Timetable Sharing**  
+Share your classes and timetable with friends.  
+<img src="assets/screenshots/timetable_sharing.png" width="120" height="auto" alt="Timetable Sharing" style="display: block; margin: auto;">
 
 ## Getting Started
 
-To get this project up and running on your local machine, all you need to do is clone or download this project, set up [Firebase Console](https://firebase.google.com/docs/android/setup), Open this project in android studio and run it on any android device or emulator.
+**Download SilverBook today** and take control of your college attendance.
 
-### Prerequisites
+[Download SilverBook from the Play Store](https://play.google.com/store/apps/details?id=com.kinshuu.silverbook)
 
-A google account to set up firebase.
+Or scan the QR code below to download the app directly:
 
-## Using the Application
-
-On the very first screen users are asked for some basic information(College,Batch and Branch) which is used to automatically fetch subjects(For some selected colleges). The users then Sign-Up/ Sign-In using Firebase Auth UI. Users also get an option to add/delete their own subjects. Along with the Feedback and Share options there is an App reset option to clear all the data and logout the user. 
-Note that the attendance data and scores are stored locally and none of it is uploaded. You may check out the source code for the same. Also note that, the authorisation is handled using Google's own Auth UI. So rest assured there is no way I can save or even see your passwords.(When you sign-in/up).
-
-## Built with
-
-* [Firebase](https://firebase.google.com/) - Used for a large number of features.
-* [Maven](https://dl.google.com/dl/android/maven2/index.html) - Dependency Management.
-* [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart) - For Pie Charts used in the app.
+<img src="assets/silverbook_google_play_qr.png" width="200" height="auto" alt="QR Code for SilverBook" style="display: block; margin: auto;">
 
 ## Contributing
 
-I am open to contributions. Contact me on [Facebook](https://www.facebook.com/mishraprateekaries) for any queries.
+Interested in contributing ideas or feedback? We'd love to hear from you! Reach out to us via [prateek.mishra.dev@gmail.com](mailto:prateek.mishra.dev@gmail.com).
 
-## Versioning
+## Support
 
-This is SilverBook v1.24 Pilot-3. Numbers to the left of decimal signify major releases, numbers to the right of decimal signify major commits and Pilot signifies the group of people this app is released for.
-
-## Authors
-
-* Prateek Mishra
-
-See also the list of [contributors](https://github.com/MiKinshu/SilverBook/graphs/contributors) who participated in the project.
-
-## Acknowledgements
-* I am thankful to PhilJay MP Android Chart for the awesome graphing library.
-* I am very greatful to the person who designed the icon, I searched a lot for his name but in vain.
-* A huge shoutout to Sunidhi Kashyap and Siddharth Rajawat for their contributions in this project.
+For any questions or support, please reach out to us at [prateek.mishra.dev@gmail.com](mailto:prateek.mishra.dev@gmail.com).
