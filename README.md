@@ -36,10 +36,6 @@ Or scan the QR code below to download the app directly:
 
 <img src="assets/silverbook_google_play_qr.png" width="200" height="auto" alt="QR Code for SilverBook" style="display: block; margin: auto;">
 
-## Contributing
-
-Interested in contributing ideas or feedback? We'd love to hear from you! Reach out to us via [prateek.mishra.dev@gmail.com](mailto:prateek.mishra.dev@gmail.com).
-
 ## Support
 
-For any questions or support, please reach out to us at [prateek.mishra.dev@gmail.com](mailto:prateek.mishra.dev@gmail.com).
+For any questions or support, please reach out to us at [silverbook.assistance@gmail.com](mailto:silverbook.assistance@gmail.com).
